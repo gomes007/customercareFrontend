@@ -1,0 +1,29 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  height: 50px;
+  z-index: 2;
+  padding: 5px 20px;
+  background-color: #2c3e50;
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s;
+}
+
+.navbar-opened {
+  margin-left: 270px;
+  width: calc(100% - 270px);
+}
+
+.navbar-closed {
+  margin-left: 0;
+  width: 100%;
+}
+
+.btn-menu {
+  background-color: transparent;
+  border: none;
+  color: #f0f1f2;
+  font-size: 25px;
+}
