@@ -3,7 +3,7 @@ import { useState } from "react";
 import NavBar from "./NavBar";
 
 const Menu = ({ children }) => {
-  const [open, setOpen] = useState("opened");
+  const [open, setOpen] = useState("closed");
 
   const handleMenu = () => {
     setOpen(open === "opened" ? "closed" : "opened");
@@ -33,7 +33,7 @@ const Menu = ({ children }) => {
               <i className="bi bi-person-rolodex"></i>
               <span>Role</span>
             </a>
-          </li>          
+          </li>
         </ul>
       </div>
       <div className={`site ${open}`}>

@@ -1,5 +1,5 @@
 .menu {
-  width: 270px;
+  width: 250px;
   background-color: #ecf0f1;
   min-height: 100vh;
   position: fixed;
@@ -41,7 +41,7 @@
 
 .site {
   margin-left: 270px;
-  width: calc(100% - 270px);
+  width: calc(100% - 250px);
   transition: all 0.50s;
   padding-top: 50px;
 }

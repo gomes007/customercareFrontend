@@ -6,6 +6,8 @@ import Menu from "@/components/menu/Menu";
 
 import '../styles/Menu.style.css';
 import '../styles/NavBar.style.css';
+import '../styles/NavTitle.style.css';
+
 
 export default function App({ Component, pageProps }) {
 
