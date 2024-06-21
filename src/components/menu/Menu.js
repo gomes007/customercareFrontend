@@ -1,9 +1,8 @@
 import { useState } from "react";
-
 import NavBar from "./NavBar";
 
 const Menu = ({ children }) => {
-  const [open, setOpen] = useState("closed");
+  const [open, setOpen] = useState("opened");
 
   const handleMenu = () => {
     setOpen(open === "opened" ? "closed" : "opened");
@@ -23,13 +22,13 @@ const Menu = ({ children }) => {
         </h1>
         <ul className="menu-content">
           <li>
-            <a className="link-menu" href="/">
-              <i className="bi bi-wallet2"></i>
-              <span>Position and Salary</span>
+            <a className="link-menu" href="/admin/permission">
+              <i className="bi bi-shield-lock"></i>
+              <span>Permission</span>
             </a>
           </li>
           <li>
-            <a className="link-menu" href="/">
+            <a className="link-menu" href="/admin/roles">
               <i className="bi bi-person-rolodex"></i>
               <span>Role</span>
             </a>

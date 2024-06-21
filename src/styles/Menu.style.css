@@ -40,7 +40,7 @@
 }
 
 .site {
-  margin-left: 270px;
+  margin-left: 250px;
   width: calc(100% - 250px);
   transition: all 0.50s;
   padding-top: 50px;
@@ -58,7 +58,7 @@
 }
 
 .menu.closed {
-  left: -270px;
+  left: -250px;
 }
 
 .menu .menu-content {
@@ -113,3 +113,5 @@
 .menu .menu-content .link-menu span {
   margin-left: 0;
 }
+
+
