@@ -1,13 +1,13 @@
 .menu {
   width: 250px;
-  background-color: #ecf0f1;
+  background-color: white;
   min-height: 100vh;
   position: fixed;
   left: 0;
   transition: all 0.5s;
   z-index: 1;
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 21px;
   box-sizing: border-box;
   border-right: solid 1px #e9ebf0;
@@ -16,13 +16,14 @@
   overflow-x: hidden;
   padding-bottom: 70px;
   top: 0px;
+
 }
 
+/*
 .menu-shadow {
   box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.2);
 }
-
-
+  */
 
 .menu .menu-close-btn {
   position: absolute;
@@ -35,14 +36,19 @@
   cursor: pointer;
 }
 
+.menu .menu-close-btn i{
+  color: rgb(148, 145, 145);
+}
+
 .menu .menu-close-btn:hover {
-  color: #000;
+  background-color: lightgray; 
+  color: #ffffff;
 }
 
 .site {
   margin-left: 250px;
   width: calc(100% - 250px);
-  transition: all 0.50s;
+  transition: all 0.5s;
   padding-top: 50px;
 }
 
@@ -68,32 +74,28 @@
   font-family: "Source Sans Pro", sans-serif;
 }
 
-
-
 .logo-img {
-    width: 100%;
-    display: block;
-    margin-top: 0px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+  width: 100%;
+  display: block;
+  margin-top: 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
 
 }
 
 .logo-img img {
-    width: 100%;
-    display: block;    
+  width: 30%;
+  display: block;
 }
-
-
 
 .menu .menu-content .link-menu {
   color: #545252;
   text-decoration: none;
-  font-size: 14px;
-  display: flex; 
+  font-size: 16px;
+  display: flex;
   align-items: center;
   padding: 10px 15px;
-  margin-bottom: 0px; 
+  margin-bottom: 0px;
   transition: all 0.2s ease;
   cursor: pointer;
   font-family: "Source Sans Pro", sans-serif;
@@ -106,7 +108,7 @@
 }
 
 .menu .menu-content .link-menu i {
-  font-size: 14px; 
+  font-size: 18px;
   margin-right: 10px;
 }
 
@@ -117,11 +119,11 @@
 @media (max-width: 768px) {
   .menu {
     width: 250px;
-    left: -250px; 
+    left: -250px;
   }
 
   .menu.opened {
-    left: 0; 
+    left: 0;
   }
 
   .site {

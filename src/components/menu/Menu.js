@@ -14,7 +14,7 @@ const Menu = ({ children }) => {
       <div className={`menu ${open} ${open === "opened" ? "menu-shadow" : ""}`}>
         {open === "opened" && (
           <button className="menu-close-btn" onClick={handleMenu}>
-            <i className="bi bi-x-square"></i>
+            <i className="bi bi-chevron-double-left"></i>
           </button>
         )}
         <h1 className="logo-img">

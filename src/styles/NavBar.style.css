@@ -28,3 +28,10 @@
   font-size: 25px;
 }
 
+.btn-menu:hover {
+  background-color: #34495e; 
+  color: #ffffff;
+}
+
+
+
