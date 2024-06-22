@@ -1,6 +1,6 @@
-const PaginationStats = ({ page, totalPages, totalRecords }) => {
+const PaginationStats = ({ page, totalPages, totalRecords, className }) => {
     return (
-        <div className="mt-3">
+        <div className={className}>
             <span>Total Records: {totalRecords}</span>
             <span> | Current Page: {page + 1} of {totalPages}</span>
         </div>

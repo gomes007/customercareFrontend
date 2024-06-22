@@ -12,10 +12,12 @@ import {
   updatePermission,
 } from "../../service/permissionService";
 
+import ActionButtons from "@/components/form/ActionButtons";
 import PageSizeSelector from "@/components/pagination/PageSizeSelector";
 import Pagination from "@/components/pagination/Pagination";
 import PaginationStats from "@/components/pagination/PaginationStats";
 import usePagination from "../../hooks/usePagination";
+import Table from "@/components/form/Table";
 
 export default function Permission() {
   // Hook pagination
@@ -101,14 +103,6 @@ export default function Permission() {
     );
   };
 
-  const buttonStyle = {
-    width: "35px",
-    height: "35px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-
   return (
     <>
       <NavTitle
@@ -146,73 +140,41 @@ export default function Permission() {
           </div>
           <div className="card-footer">
             <h5>Permissions List</h5>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {permissions.map((perm) => (
-                  <tr key={perm.id}>
-                    <td>{perm.name}</td>
-                    <td
-                      style={{
-                        display: "flex",
-                        gap: "10px",
-                        justifyContent: "left",
-                        alignItems: "center",
-                      }}
-                    >
-                      <button
-                        className="btn btn-warning btn-sm"
-                        style={buttonStyle}
-                        onClick={() => handleEdit(perm)}
-                        aria-label="Edit"
-                        title="Edit"
-                      >
-                        <i
-                          className="bi bi-pencil"
-                          style={{ fontSize: "18px" }}
-                        />
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        style={buttonStyle}
-                        onClick={() => handleDelete(perm.id)}
-                        aria-label="Delete"
-                        title="Delete"
-                      >
-                        <i
-                          className="bi bi-trash"
-                          style={{ fontSize: "18px" }}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div
-              className="d-flex justify-content-between align-items-center"
-              style={{ gap: "20px" }}
-            >
-              <Pagination
+            <Table
+              columns={["Name", "Action"]}
+              data={permissions}
+              renderRow={(perm, tdStyle) => (
+                <>
+                  <td>{perm.name}</td>
+                  <td style={tdStyle}>
+                    <ActionButtons
+                      perm={perm}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                    />
+                  </td>
+                </>
+              )}
+            />
+            <div className="pagination-container">
+              <div className="pagination-row">
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  goToFirstPage={goToFirstPage}
+                  goToPreviousPage={goToPreviousPage}
+                  goToNextPage={goToNextPage}
+                  goToLastPage={goToLastPage}
+                />
+                <PageSizeSelector size={size} setPageSize={setPageSize} />
+              </div>
+              <PaginationStats
                 page={page}
                 totalPages={totalPages}
-                goToFirstPage={goToFirstPage}
-                goToPreviousPage={goToPreviousPage}
-                goToNextPage={goToNextPage}
-                goToLastPage={goToLastPage}
+                totalRecords={totalRecords}
+                className="pagination-stats"
               />
-              <PageSizeSelector size={size} setPageSize={setPageSize} />
             </div>
-            <PaginationStats
-              page={page}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-            />
           </div>
         </div>
       </div>

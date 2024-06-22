@@ -1,0 +1,17 @@
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pagination-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .pagination-stats {
+    font-size: 0.675rem;
+    text-align: left;
+    margin-top: 0rem;
+  }
+  
