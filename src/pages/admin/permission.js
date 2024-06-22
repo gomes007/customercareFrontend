@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 import ConfirmDialog from "@/components/form/ConfirmDialog";
 import FieldForm from "@/components/form/FieldForm";
 import NavTitle from "@/components/menu/NavTitle";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+
 import {
   createPermission,
   deletePermission,
@@ -10,24 +12,35 @@ import {
   updatePermission,
 } from "../../service/permissionService";
 
+import PageSizeSelector from "@/components/form/PageSizeSelector";
+import Pagination from "@/components/form/Pagination";
+import usePagination from "../../hooks/usePagination";
+
+
 export default function Permission() {
-  const [permission, setPermission] = useState({ name: "" });
+
+  //hook to pagination
+  const {
+    data,
+    page,
+    size,
+    totalPages,
+    goToFirstPage,
+    goToPreviousPage,
+    goToNextPage,
+    goToLastPage,
+    refreshPage,
+    setPageSize,
+  } = usePagination(getPermissions);
+
+  //states
   const [permissions, setPermissions] = useState([]);
+  const [permission, setPermission] = useState({ name: "" });
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    fetchPermissions();
-  }, []);
-
-  const fetchPermissions = async () => {
-    try {
-      const response = await getPermissions();
-      setPermissions(response);
-    } catch (error) {
-      toast.error("Error fetching permissions");
-      console.error("Error fetching permissions:", error);
-    }
-  };
+    setPermissions(data);
+  }, [data]);
 
   const handlePermission = (e) => {
     setPermission({
@@ -36,7 +49,8 @@ export default function Permission() {
     });
   };
 
-  //methods to save, delete and update permission
+
+  //methods
   const savePermission = async (e) => {
     e.preventDefault();
     try {
@@ -53,6 +67,7 @@ export default function Permission() {
       }
       setPermission({ name: "" });
       setIsEditing(false);
+      refreshPage();
     } catch (error) {
       toast.error(
         isEditing ? "Error updating permission" : "Error creating permission"
@@ -77,6 +92,7 @@ export default function Permission() {
               prevPermissions.filter((perm) => perm.id !== id)
             );
             toast.success("Permission deleted successfully");
+            refreshPage();
           } catch (error) {
             toast.error("Error deleting permission");
             console.error("Error deleting permission:", error);
@@ -85,6 +101,8 @@ export default function Permission() {
       />
     );
   };
+
+
 
   const buttonStyle = {
     width: "35px",
@@ -179,6 +197,17 @@ export default function Permission() {
                 ))}
               </tbody>
             </table>
+            <div className="d-flex justify-content-between align-items-center" style={{gap:'20px'}}>
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                goToFirstPage={goToFirstPage}
+                goToPreviousPage={goToPreviousPage}
+                goToNextPage={goToNextPage}
+                goToLastPage={goToLastPage}
+              />
+              <PageSizeSelector size={size} setPageSize={setPageSize} />
+            </div>
           </div>
         </div>
       </div>

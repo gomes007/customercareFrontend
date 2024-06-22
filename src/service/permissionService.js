@@ -1,13 +1,18 @@
-import axios from 'axios';
-import { API_URLS } from './apiConfig';
+import axios from "axios";
+import { API_URLS, PAGINATION_DEFAULTS } from "./apiConfig";
 
 const createPermission = async (data) => {
   const response = await axios.post(API_URLS.permissions, data);
   return response.data;
 };
 
-const getPermissions = async () => {
-  const response = await axios.get(API_URLS.permissions);
+const getPermissions = async (
+  page = PAGINATION_DEFAULTS.page,
+  size = PAGINATION_DEFAULTS.size
+) => {
+  const response = await axios.get(API_URLS.permissions, {
+    params: { page, size },
+  });
   return response.data;
 };
 
@@ -21,9 +26,4 @@ const deletePermission = async (id) => {
   return response.data;
 };
 
-export {
-  createPermission,
-  getPermissions,
-  updatePermission,
-  deletePermission,
-};
+export { createPermission, deletePermission, getPermissions, updatePermission };
