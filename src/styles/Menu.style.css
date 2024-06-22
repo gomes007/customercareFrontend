@@ -114,4 +114,38 @@
   margin-left: 0;
 }
 
+@media (max-width: 768px) {
+  .menu {
+    width: 250px;
+    left: -250px; 
+  }
 
+  .menu.opened {
+    left: 0; 
+  }
+
+  .site {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 50px;
+  }
+
+  .site.menu-opened {
+    margin-left: 0;
+  }
+
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  .menu.opened + .menu-overlay {
+    display: block;
+  }
+}
