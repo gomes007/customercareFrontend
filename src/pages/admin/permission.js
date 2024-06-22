@@ -12,19 +12,19 @@ import {
   updatePermission,
 } from "../../service/permissionService";
 
-import PageSizeSelector from "@/components/form/PageSizeSelector";
-import Pagination from "@/components/form/Pagination";
+import PageSizeSelector from "@/components/pagination/PageSizeSelector";
+import Pagination from "@/components/pagination/Pagination";
+import PaginationStats from "@/components/pagination/PaginationStats";
 import usePagination from "../../hooks/usePagination";
 
-
 export default function Permission() {
-
-  //hook to pagination
+  // Hook pagination
   const {
     data,
     page,
     size,
     totalPages,
+    totalRecords,
     goToFirstPage,
     goToPreviousPage,
     goToNextPage,
@@ -33,13 +33,13 @@ export default function Permission() {
     setPageSize,
   } = usePagination(getPermissions);
 
-  //states
+  // states
   const [permissions, setPermissions] = useState([]);
   const [permission, setPermission] = useState({ name: "" });
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    setPermissions(data);
+    setPermissions(data || []);
   }, [data]);
 
   const handlePermission = (e) => {
@@ -49,8 +49,7 @@ export default function Permission() {
     });
   };
 
-
-  //methods
+  // Methods
   const savePermission = async (e) => {
     e.preventDefault();
     try {
@@ -101,8 +100,6 @@ export default function Permission() {
       />
     );
   };
-
-
 
   const buttonStyle = {
     width: "35px",
@@ -197,7 +194,10 @@ export default function Permission() {
                 ))}
               </tbody>
             </table>
-            <div className="d-flex justify-content-between align-items-center" style={{gap:'20px'}}>
+            <div
+              className="d-flex justify-content-between align-items-center"
+              style={{ gap: "20px" }}
+            >
               <Pagination
                 page={page}
                 totalPages={totalPages}
@@ -208,6 +208,11 @@ export default function Permission() {
               />
               <PageSizeSelector size={size} setPageSize={setPageSize} />
             </div>
+            <PaginationStats
+              page={page}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+            />
           </div>
         </div>
       </div>
