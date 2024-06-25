@@ -28,7 +28,7 @@ const Menu = ({ children }) => {
             </a>
           </li>
           <li>
-            <a className="link-menu" href="/admin/roles">
+            <a className="link-menu" href="/admin/role">
               <i className="bi bi-person-rolodex"></i>
               <span>Role</span>
             </a>

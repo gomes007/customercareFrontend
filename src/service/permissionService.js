@@ -22,8 +22,15 @@ const updatePermission = async (data) => {
 };
 
 const deletePermission = async (id) => {
-  const response = await axios.delete(`${API_URLS.permissions}/${id}`);
-  return response.data;
+  try {
+    const response = await axios.delete(`${API_URLS.permissions}/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || 'Error deleting permission');
+    }
+    throw new Error('Error deleting permission');
+  }
 };
 
 export { createPermission, deletePermission, getPermissions, updatePermission };

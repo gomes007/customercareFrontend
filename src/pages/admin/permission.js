@@ -13,11 +13,11 @@ import {
 } from "../../service/permissionService";
 
 import ActionButtons from "@/components/form/ActionButtons";
+import Table from "@/components/form/Table";
 import PageSizeSelector from "@/components/pagination/PageSizeSelector";
 import Pagination from "@/components/pagination/Pagination";
 import PaginationStats from "@/components/pagination/PaginationStats";
 import usePagination from "../../hooks/usePagination";
-import Table from "@/components/form/Table";
 
 export default function Permission() {
   // Hook pagination
@@ -95,7 +95,8 @@ export default function Permission() {
             toast.success("Permission deleted successfully");
             refreshPage();
           } catch (error) {
-            toast.error("Error deleting permission");
+            const errorMessage = error.message || "Error deleting permission";
+            toast.error(errorMessage);
             console.error("Error deleting permission:", error);
           }
         }}
