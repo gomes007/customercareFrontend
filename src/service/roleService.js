@@ -8,7 +8,7 @@ export const getRoles = async (
     params: { page, size },
   });
   return response.data;
-  console.log('Service - Getting roles:', response.data);
+  console.log("Service - Getting roles:", response.data);
 };
 
 export const getRole = async (id) => {
@@ -17,8 +17,8 @@ export const getRole = async (id) => {
 };
 
 export const createRole = async (role) => {
-  console.log('Service - Sending role:', role); 
-  const response = await axiosInstance.post(API_URLS.roles, role)
+  console.log("Service - Sending role:", role);
+  const response = await axiosInstance.post(API_URLS.roles, role);
   return response.data ?? role;
 };
 
@@ -27,10 +27,13 @@ export const updateRole = async (id, role) => {
 };
 
 export const deleteRole = async (id) => {
-  const response = await axiosInstance.delete(`${API_URLS.roles}/${id}`);
-  return response.data;
+  try {
+    const response = await axiosInstance.delete(`${API_URLS.roles}/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "Error deleting role");
+    }
+    throw new Error("Error deleting role");
+  }
 };
-
-
-
-

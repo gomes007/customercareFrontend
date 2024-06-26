@@ -1,61 +1,75 @@
 import FieldForm from "@/components/form/FieldForm";
 import NavTitle from "@/components/menu/NavTitle";
-import { createRole } from "@/service/roleService";
+import { createRole, updateRole } from "@/service/roleService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getPermissions } from "../../service/permissionService";
+import { getPermissions } from "@/service/permissionService";
+import { useRouter } from "next/router";
 
 export default function Role() {
   const [permissions, setPermissions] = useState([]);
-  const [role, setRole] = useState({ name: "", permissions: [] });
+  const [role, setRole] = useState({ id: null, name: "", permissions: [] });
+  const router = useRouter();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchPermissionsAndRoles = async () => {
-        try {
-            const permissionsResponse = await getPermissions();
-            setPermissions(permissionsResponse.items || []);
-        } catch (error) {
-            console.error("Error getting permissions:", error);
+      try {
+        const permissionsResponse = await getPermissions();
+        setPermissions(permissionsResponse.items || []);
+
+        if (router.query.id) {
+          setRole({
+            id: router.query.id,
+            name: router.query.name,
+            permissions: JSON.parse(router.query.permissions)
+          });
         }
+      } catch (error) {
+        console.error("Error getting permissions:", error);
+      }
     };
     fetchPermissionsAndRoles();
-}, []);
+  }, [router.query]);
 
   const handleRoleNameChange = (e) => {
     setRole({ ...role, name: e.target.value });
   };
 
-const handlePermissionSelect = (e, id) => {
+  const handlePermissionSelect = (e, id) => {
     const checked = e.target.checked;
     setRole(prevRole => {
-        if (checked) {
-            return { ...prevRole, permissions: [...prevRole.permissions, { id }] };
-        } else {
-            return {
-                ...prevRole,
-                permissions: prevRole.permissions.filter(
-                    (permission) => permission.id !== id
-                ),
-            };
-        }
+      if (checked) {
+        return { ...prevRole, permissions: [...prevRole.permissions, { id }] };
+      } else {
+        return {
+          ...prevRole,
+          permissions: prevRole.permissions.filter(
+            (permission) => permission.id !== id
+          ),
+        };
+      }
     });
-};
+  };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createRole(role);
-      toast.success("Role created successfully");
-      setRole({ name: "", permissions: [] });      
+      if (role.id) {
+        await updateRole(role.id, role);
+        toast.success("Role updated successfully");
+      } else {
+        await createRole(role);
+        toast.success("Role created successfully");
+      }
+      setRole({ id: null, name: "", permissions: [] });
       document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
       });
     } catch (error) {
-      console.error("Error creating role:", error);
-      toast.error("Failed to create role");
+      console.error("Error saving role:", error);
+      toast.error("Failed to save role");
     }
   };
-
 
   return (
     <>
@@ -63,15 +77,16 @@ const handleSubmit = async (e) => {
         icon={<i className="bi bi-file-earmark-lock2"></i>}
         title="Roles and Permissions"
         path={[
-          { name: "Home", link: "/" },
+          { name: "Home", link: "/" },          
           { name: "Roles", link: "/admin/role" },
+          { name: "Roles List", link: "/admin/roleList" },
         ]}
       />
 
       <div className="container">
         <div className="card mt-5 p-3">
           <div className="card-header bg-light">
-            <h3>Register</h3>
+            <h3>{role.id ? "Edit Role" : "Register"}</h3>
           </div>
 
           <div className="card-body">
@@ -88,22 +103,21 @@ const handleSubmit = async (e) => {
             <div className="col-md-8 mt-3">
               <div className="form-control">
                 <label>Permissions: </label>
-                {permissions.map((permission, index) => {
-                  return (
-                    <div key={index}>
-                      <input
-                        className="m-1"
-                        type="checkbox"
-                        id={permission.id}
-                        name={permission.name}
-                        onChange={(e) =>
-                          handlePermissionSelect(e, permission.id)
-                        }
-                      />
-                      <label htmlFor={permission.id}>{permission.name}</label>
-                    </div>
-                  );
-                })}
+                {permissions.map((permission, index) => (
+                  <div key={index}>
+                    <input
+                      className="m-1"
+                      type="checkbox"
+                      id={permission.id}
+                      name={permission.name}
+                      checked={role.permissions.some(p => p.id === permission.id)}
+                      onChange={(e) =>
+                        handlePermissionSelect(e, permission.id)
+                      }
+                    />
+                    <label htmlFor={permission.id}>{permission.name}</label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -114,7 +128,7 @@ const handleSubmit = async (e) => {
               type="submit"
               onClick={handleSubmit}
             >
-              Submit
+              {role.id ? "Update" : "Submit"}
             </button>
           </div>
         </div>

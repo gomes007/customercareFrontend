@@ -1,13 +1,14 @@
-
 const ActionButtons = ({ perm, handleEdit, handleDelete }) => {
+  const buttonStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "5px",
+  };
 
-    const buttonStyle = {
-        width: "35px",
-        height: "35px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      };
+  const iconStyle = {
+    fontSize: "15px",
+  };
 
   return (
     <>
@@ -18,7 +19,7 @@ const ActionButtons = ({ perm, handleEdit, handleDelete }) => {
         aria-label="Edit"
         title="Edit"
       >
-        <i className="bi bi-pencil" style={{ fontSize: "18px" }} />
+        <i className="bi bi-pencil" style={iconStyle} />
       </button>
       <button
         className="btn btn-danger btn-sm"
@@ -27,7 +28,7 @@ const ActionButtons = ({ perm, handleEdit, handleDelete }) => {
         aria-label="Delete"
         title="Delete"
       >
-        <i className="bi bi-trash" style={{ fontSize: "18px" }} />
+        <i className="bi bi-trash" style={iconStyle} />
       </button>
     </>
   );
