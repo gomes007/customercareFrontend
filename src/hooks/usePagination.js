@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { PAGINATION_DEFAULTS } from "../service/apiConfig";
+import { PAGINATION_DEFAULTS } from "../service/axiosService";
 
 const usePagination = (
   fetchData,
@@ -14,7 +14,8 @@ const usePagination = (
 
   const loadPage = useCallback(async () => {
     try {
-      const response = await fetchData(page, size);      
+      const response = await fetchData(page, size); 
+      console.log("API Response:", response);     
       setData(response.items);      
       setTotalPages(response.totalPages);
       setTotalRecords(response.totalRecordsQuantity);

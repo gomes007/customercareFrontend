@@ -33,6 +33,12 @@ const Menu = ({ children }) => {
               <span>Role</span>
             </a>
           </li>
+          <li>
+            <a className="link-menu" href="/admin/roleList">
+              <i className="bi bi-person-rolodex"></i>
+              <span>Role List</span>
+            </a>
+          </li>
         </ul>
       </div>
       <div className={`site ${open}`}>

@@ -42,7 +42,8 @@ export default function Permission() {
 
   useEffect(() => {
     setPermissions(data || []);
-  }, [data]);
+    console.log(data);
+  },[data]);
 
   const handlePermission = (e) => {
     setPermission({
