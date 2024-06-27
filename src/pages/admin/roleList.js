@@ -5,8 +5,14 @@ import NavTitle from "@/components/menu/NavTitle";
 import PageSizeSelector from "@/components/pagination/PageSizeSelector";
 import Pagination from "@/components/pagination/Pagination";
 import PaginationStats from "@/components/pagination/PaginationStats";
-import { deleteRole, getRoles } from "@/service/roleService";
+import {
+  deleteRole,
+  getRoles,
+  getRolesByName,
+  getRolesByPermissionName,
+} from "@/service/roleService";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import usePagination from "../../hooks/usePagination";
 
@@ -23,8 +29,11 @@ export default function RoleList() {
     goToLastPage,
     refreshPage,
     setPageSize,
+    setFilteredData,
   } = usePagination(getRoles);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("role");
   const router = useRouter();
 
   const handleDelete = async (id) => {
@@ -57,6 +66,31 @@ export default function RoleList() {
     });
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (searchBy === "name") {
+        response = await getRolesByName(searchTerm, page, size);
+      } else if (searchBy === "permission") {
+        response = await getRolesByPermissionName(searchTerm, page, size);
+      }
+      setFilteredData(
+        response.items,
+        response.totalPages,
+        response.totalRecordsQuantity
+      );
+    } catch (error) {
+      console.error("Error searching roles:", error);
+      toast.error("Failed to search roles");
+    }
+  };
+
+  const handleClear = () => {
+    setSearchTerm("");
+    refreshPage();
+  };
+
   const columns = ["Name", "Permissions", "Actions"];
 
   return (
@@ -74,6 +108,39 @@ export default function RoleList() {
         <div className="card mt-5 p-3">
           <div className="card-header bg-light">
             <h5>Roles List</h5>
+            <form onSubmit={handleSearch}>
+              <div className="form-row align-items-center">
+                <div className="col-auto">
+                  <select
+                    className="form-control"
+                    value={searchBy}
+                    onChange={(e) => setSearchBy(e.target.value)}
+                  >
+                    <option value="name">Name</option>
+                    <option value="permission">Permission</option>
+                  </select>
+                </div>
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={`Search by ${searchBy}`}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="col-auto">
+                  <button type="submit" className="btn btn-primary">
+                    Search
+                  </button>
+                </div>
+                <div className="col-auto">
+                  <button type="button" className="btn btn-secondary" onClick={handleClear}>
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
           <div className="card-body">
             <Table

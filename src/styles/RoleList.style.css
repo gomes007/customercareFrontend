@@ -1,0 +1,17 @@
+.form-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-row .col-auto {
+    margin-right: 10px; 
+  }
+  
+  .form-row .col {
+    flex-grow: 1;
+  }
+  
+  .form-row .btn-primary {
+    margin-left: 10px;
+  }
+  

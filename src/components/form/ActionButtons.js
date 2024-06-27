@@ -4,6 +4,7 @@ const ActionButtons = ({ perm, handleEdit, handleDelete }) => {
     alignItems: "center",
     justifyContent: "center",
     padding: "5px",
+  
   };
 
   const iconStyle = {

@@ -39,6 +39,13 @@ const usePagination = (
     setSize(newSize);
   };
 
+  const setFilteredData = (items, totalPages, totalRecordsQuantity) => {
+    setData(items);
+    setTotalPages(totalPages);
+    setTotalRecords(totalRecordsQuantity);
+    setPage(0);
+  };
+
   return {
     data,
     page,
@@ -51,6 +58,7 @@ const usePagination = (
     goToLastPage,
     refreshPage,
     setPageSize,
+    setFilteredData,
   };
 };
 

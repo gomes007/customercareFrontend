@@ -79,7 +79,6 @@ export default function Role() {
         path={[
           { name: "Home", link: "/" },          
           { name: "Roles", link: "/admin/role" },
-          { name: "Roles List", link: "/admin/roleList" },
         ]}
       />
 

@@ -27,9 +27,12 @@ axiosInstance.interceptors.request.use(
 
 
 export const API_URLS = {
-  roles: `${BASE_URL}/roles`,
-  permissions: `${BASE_URL}/permissions`,
-};
+    roles: `${BASE_URL}/roles`,
+    rolesByName: `${BASE_URL}/roles/search/by-name`,
+    rolesByPermission: `${BASE_URL}/roles/search/by-permission`,
+    permissions: `${BASE_URL}/permissions`,
+  };
+  
 
 export const PAGINATION_DEFAULTS = {
   page: 0,
