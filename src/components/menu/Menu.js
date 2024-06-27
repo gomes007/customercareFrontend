@@ -23,20 +23,20 @@ const Menu = ({ children }) => {
         <ul className="menu-content">
           <li>
             <a className="link-menu" href="/admin/permission">
-              <i className="bi bi-shield-lock"></i>
+              <i className="bi bi-shield-lock-fill"></i>
               <span>Permission</span>
             </a>
           </li>
           <li>
             <a className="link-menu" href="/admin/role">
-              <i className="bi bi-person-rolodex"></i>
+              <i className="bi bi-person-badge"></i>
               <span>Role</span>
             </a>
           </li>
           <li>
             <a className="link-menu" href="/admin/roleList">
-              <i className="bi bi-person-rolodex"></i>
-              <span>Role List</span>
+            <i className="bi bi-list-ul"></i>
+              <span>Roles List</span>
             </a>
           </li>
         </ul>

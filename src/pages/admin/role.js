@@ -74,7 +74,7 @@ export default function Role() {
   return (
     <>
       <NavTitle
-        icon={<i className="bi bi-file-earmark-lock2"></i>}
+        icon={<i className="bi bi-shield-check"></i>}
         title="Roles and Permissions"
         path={[
           { name: "Home", link: "/" },          

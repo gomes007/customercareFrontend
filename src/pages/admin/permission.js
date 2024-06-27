@@ -40,6 +40,7 @@ export default function Permission() {
   const [permission, setPermission] = useState({ name: "" });
   const [isEditing, setIsEditing] = useState(false);
 
+
   useEffect(() => {
     setPermissions(data || []);
     console.log(data);
