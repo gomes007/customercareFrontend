@@ -130,13 +130,13 @@ export default function RoleList() {
                   />
                 </div>
                 <div className="col-auto">
-                  <button type="submit" className="btn btn-primary">
-                  <i class="bi bi-search"></i>
+                  <button type="submit" className="btn btn-primary btn-sm" title='Search'>
+                  <i className="bi bi-search"></i>
                   </button>
                 </div>
                 <div className="col-auto">
-                  <button type="button" className="btn btn-secondary" onClick={handleClear}>
-                  <i class="bi bi-trash"></i>
+                  <button type="button" className="btn btn-secondary btn-sm" title='Clear' onClick={handleClear}>
+                  <i className="bi bi-trash"></i>
                   </button>
                 </div>
               </div>

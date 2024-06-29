@@ -1,9 +1,14 @@
+import ConfirmDialog from "@/components/form/ConfirmDialog";
 import FieldForm from "@/components/form/FieldForm";
 import NavTitle from "@/components/menu/NavTitle";
+import PageSizeSelector from "@/components/pagination/PageSizeSelector";
+import Pagination from "@/components/pagination/Pagination";
+import PaginationStats from "@/components/pagination/PaginationStats";
 import positionSalaryService from "@/service/positionSalaryService";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import usePagination from "../../hooks/usePagination";
 import { getRoles } from "../../service/roleService";
 
 export default function PositionSalary() {
@@ -16,6 +21,21 @@ export default function PositionSalary() {
   });
   const router = useRouter();
   const { id } = router.query;
+
+  const {
+    data: positionSalaries,
+    page,
+    size,
+    totalPages,
+    totalRecords,
+    goToFirstPage,
+    goToPreviousPage,
+    goToNextPage,
+    goToLastPage,
+    refreshPage,
+    setPageSize,
+    setFilteredData,
+  } = usePagination(positionSalaryService.getPositionSalaries);
 
   useEffect(() => {
     async function fetchRoles() {
@@ -64,7 +84,6 @@ export default function PositionSalary() {
       if (id) {
         await positionSalaryService.updatePositionSalary({ ...data, id });
         toast.success("Position Salary updated successfully");
-        router.push("/admin/positionSalaryTable");
       } else {
         await positionSalaryService.createPositionSalary(data);
         toast.success("Position Salary created successfully");
@@ -75,11 +94,34 @@ export default function PositionSalary() {
         commission: "",
         roleId: "",
       });
-      
+      refreshPage();
     } catch (error) {
-      console.error('Error creating/updating position salary:', error);
+      console.error("Error creating/updating position salary:", error);
       toast.error("Error creating/updating position salary");
     }
+  };
+
+  const handleEdit = (id) => {
+    router.push(`/admin/positionSalary?id=${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    toast(
+      <ConfirmDialog
+        message="Are you sure you want to delete this role?"
+        onConfirm={async () => {
+          try {
+            await positionSalaryService.deletePositionSalary(id);
+            refreshPage();
+            toast.success("Role deleted successfully");
+          } catch (error) {
+            const message = error.message || "Failed to delete role";
+            toast.error(message);
+            console.error("Error deleting role:", error);
+          }
+        }}
+      />
+    );
   };
 
   return (
@@ -90,14 +132,13 @@ export default function PositionSalary() {
         path={[
           { name: "Home", link: "/" },
           { name: "Position Salaries", link: "/admin/positionSalary" },
-          { name: "Position Salaries List", link: "/admin/positionSalaryTable" },
         ]}
       />
 
       <div className="container-fluid">
         <div className="card mt-5 p-3">
           <div className="card-header bg-light">
-            <h5>{id ? "Edit" : "Register"}</h5>
+            <h5>Register</h5>
           </div>
           <div className="card-body">
             <div className="row">
@@ -157,17 +198,77 @@ export default function PositionSalary() {
                 </select>
               </div>
             </div>
-          </div>
-          <div className="row mt-3">
-            <div className="col-12 d-flex justify-content-end">
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={handleSubmit}
-              >
-                {id ? "Update" : "Submit"}
-              </button>
+            <div className="row mt-3">
+              <div className="col-12 d-flex justify-content-end">
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={handleSubmit}
+                >
+                  {id ? "Update" : "Submit"}
+                </button>
+              </div>
             </div>
+          </div>
+
+          <div className="card-footer mt-5">
+            <div className="table-title">Position Salaries List</div>
+            <table className="table table-striped table-sm align-middle table-bordered">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Salary</th>
+                  <th>Commission</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {positionSalaries.map((ps) => (
+                  <tr key={ps.id}>
+                    <td>{ps.position}</td>
+                    <td>{ps.salary}</td>
+                    <td>{ps.commission}</td>
+                    <td>{ps.roleName}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        title="Edit"
+                        onClick={() => handleEdit(ps.id)}
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        title="Delete"
+                        onClick={() => handleDelete(ps.id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="pagination-container">
+            <div className="pagination-row">
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                goToFirstPage={goToFirstPage}
+                goToPreviousPage={goToPreviousPage}
+                goToNextPage={goToNextPage}
+                goToLastPage={goToLastPage}
+              />
+              <PageSizeSelector size={size} setPageSize={setPageSize} />
+            </div>
+            <PaginationStats
+              page={page}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              className="pagination-stats"
+            />
           </div>
         </div>
       </div>

@@ -48,13 +48,13 @@ const positionSalaryService = {
   },
 
   async getPositionSalaryByRole(
-    role,
+    roleName,
     page = PAGINATION_DEFAULTS.page,
     size = PAGINATION_DEFAULTS.size
   ) {
     try {
       const response = await axiosInstance.get(API_URLS.positionSalaryByRole, {
-        params: { role, page, size },
+        params: { roleName, page, size },
       });
       console.log("Service - Getting position salary by role:", response.data);
       return response.data;
@@ -63,6 +63,7 @@ const positionSalaryService = {
       throw error;
     }
   },
+
 
   async getPositionSalaryById(id) {
     try {
