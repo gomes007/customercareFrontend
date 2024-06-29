@@ -31,6 +31,9 @@ export const API_URLS = {
     rolesByName: `${BASE_URL}/roles/search/by-name`,
     rolesByPermission: `${BASE_URL}/roles/search/by-permission`,
     permissions: `${BASE_URL}/permissions`,
+    positionSalary: `${BASE_URL}/position-salaries`,
+    positionSalaryByPosition: `${BASE_URL}/position-salaries/search/by-position`,
+    positionSalaryByRole: `${BASE_URL}/position-salaries/search/by-role`,
   };
   
 

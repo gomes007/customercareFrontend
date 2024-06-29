@@ -1,10 +1,10 @@
 import FieldForm from "@/components/form/FieldForm";
 import NavTitle from "@/components/menu/NavTitle";
+import { getPermissions } from "@/service/permissionService";
 import { createRole, updateRole } from "@/service/roleService";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getPermissions } from "@/service/permissionService";
-import { useRouter } from "next/router";
 
 export default function Role() {
   const [permissions, setPermissions] = useState([]);

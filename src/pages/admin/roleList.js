@@ -33,7 +33,7 @@ export default function RoleList() {
   } = usePagination(getRoles);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchBy, setSearchBy] = useState("role");
+  const [searchBy, setSearchBy] = useState("name");
   const router = useRouter();
 
   const handleDelete = async (id) => {
@@ -104,15 +104,15 @@ export default function RoleList() {
           { name: "Roles List", link: "/admin/roleList" },
         ]}
       />
-      <div className="container">
+      <div className="container-fluid">
         <div className="card mt-5 p-3">
           <div className="card-header bg-light">
-            <h5>Roles List</h5>
+          <h6>Role list</h6>
             <form onSubmit={handleSearch}>
               <div className="form-row align-items-center">
                 <div className="col-auto">
                   <select
-                    className="form-control"
+                    className="form-select"
                     value={searchBy}
                     onChange={(e) => setSearchBy(e.target.value)}
                   >
@@ -131,12 +131,12 @@ export default function RoleList() {
                 </div>
                 <div className="col-auto">
                   <button type="submit" className="btn btn-primary">
-                    Search
+                  <i class="bi bi-search"></i>
                   </button>
                 </div>
                 <div className="col-auto">
                   <button type="button" className="btn btn-secondary" onClick={handleClear}>
-                    Clear
+                  <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>

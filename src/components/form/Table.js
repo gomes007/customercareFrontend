@@ -6,26 +6,24 @@ export default function Table({ columns, data, renderRow }) {
     alignItems: "center",
   };
 
-  const trStyle = {
-    height: "50px"
-  };
-
   return (
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          {columns.map((column, index) => (
-            <th key={index}>{column}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, index) => (
-          <tr key={index} style={trStyle}>
-            {renderRow(item, tdStyle)}
+    <div className="table-responsive">
+      <table className="table table-striped table-sm align-middle table-bordered">
+        <thead>
+          <tr>
+            {columns.map((column, index) => (
+              <th key={index}>{column}</th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={index}>
+              {renderRow(item, tdStyle)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

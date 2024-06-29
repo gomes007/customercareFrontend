@@ -1,4 +1,4 @@
-import axiosInstance, { API_URLS } from "./axiosService";
+import axiosInstance, { API_URLS, PAGINATION_DEFAULTS } from "./axiosService";
 
 export const getRoles = async (
   page = PAGINATION_DEFAULTS.page,

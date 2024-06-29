@@ -36,7 +36,19 @@ const Menu = ({ children }) => {
           <li>
             <a className="link-menu" href="/admin/roleList">
             <i className="bi bi-list-ul"></i>
-              <span>Roles List</span>
+              <span>Role list</span>
+            </a>
+          </li>
+          <li>
+            <a className="link-menu" href="/admin/positionSalary">
+            <i className="bi bi-currency-dollar me-2"></i>
+              <span>Position and Salary</span>
+            </a>
+          </li>
+          <li>
+            <a className="link-menu" href="/admin/positionSalaryTable">
+            <i className="bi bi-list-ul"></i>
+              <span>Position and Salary List</span>
             </a>
           </li>
         </ul>

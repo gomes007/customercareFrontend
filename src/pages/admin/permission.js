@@ -116,7 +116,7 @@ export default function Permission() {
           { name: "Permissions", link: "/admin/permissions" },
         ]}
       />
-      <div className="container">
+      <div className="container-fluid">
         <div className="card mt-5 p-3">
           <div className="card-header bg-light">
             <h3>Register</h3>

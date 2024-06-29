@@ -1,16 +1,16 @@
 .menu {
-  width: 250px;
-  background-color: white;
+  width: 220px;
+  background-color: #3c4349; 
+  color: white;
   min-height: 100vh;
   position: fixed;
   left: 0;
-  transition: all 0.5s;
+  transition: all 0.50s;
   z-index: 1;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
   line-height: 21px;
   box-sizing: border-box;
-  border-right: solid 1px #e9ebf0;
   font-weight: 500;
   overflow-y: auto;
   overflow-x: hidden;
@@ -19,11 +19,6 @@
 
 }
 
-/*
-.menu-shadow {
-  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.2);
-}
-  */
 
 .menu .menu-close-btn {
   position: absolute;
@@ -46,8 +41,8 @@
 }
 
 .site {
-  margin-left: 250px;
-  width: calc(100% - 250px);
+  margin-left: 220px;
+  width: calc(100% - 220px);
   transition: all 0.5s;
   padding-top: 50px;
 }
@@ -64,7 +59,7 @@
 }
 
 .menu.closed {
-  left: -250px;
+  left: -220px;
 }
 
 .menu .menu-content {
@@ -89,9 +84,9 @@
 }
 
 .menu .menu-content .link-menu {
-  color: #545252;
+  color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   padding: 10px 15px;
@@ -118,8 +113,8 @@
 
 @media (max-width: 768px) {
   .menu {
-    width: 250px;
-    left: -250px;
+    width: 220px;
+    left: -220px;
   }
 
   .menu.opened {
