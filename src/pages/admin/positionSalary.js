@@ -134,9 +134,9 @@ export default function PositionSalary() {
             </div>
             <div className="row mt-3">
               <div className="form-group col-md-4">
-                <label htmlFor="role">Role</label>
+                <label htmlFor="role" className="form-label small mb-0">Role</label>
                 <select
-                  className="form-select"
+                  className="form-select form-select-sm"
                   name="roleId"
                   value={formData.roleId}
                   onChange={handleChange}

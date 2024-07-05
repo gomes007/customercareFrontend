@@ -112,7 +112,7 @@ export default function RoleList() {
               <div className="form-row align-items-center">
                 <div className="col-auto">
                   <select
-                    className="form-select"
+                    className="form-select form-select-sm"
                     value={searchBy}
                     onChange={(e) => setSearchBy(e.target.value)}
                   >
@@ -123,7 +123,7 @@ export default function RoleList() {
                 <div className="col">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     placeholder={`Search by ${searchBy}`}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}

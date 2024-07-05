@@ -51,6 +51,12 @@ const Menu = ({ children }) => {
               <span>Position and Salary List</span>
             </a>
           </li>
+          <li>
+            <a className="link-menu" href="/admin/employeeRegister">
+            <i className="bi bi-currency-dollar me-2"></i>
+              <span>Employee </span>
+            </a>
+          </li>
         </ul>
       </div>
       <div className={`site ${open}`}>
