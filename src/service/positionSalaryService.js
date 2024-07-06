@@ -20,7 +20,7 @@ const positionSalaryService = {
         params: { page, size },
       });
       return response.data;
-      
+        
     } catch (error) {
       console.error("Error getting position salaries:", error);
       throw error;

@@ -34,6 +34,7 @@ export const API_URLS = {
     positionSalary: `${BASE_URL}/position-salaries`,
     positionSalaryByPosition: `${BASE_URL}/position-salaries/search/by-position`,
     positionSalaryByRole: `${BASE_URL}/position-salaries/search/by-role`,
+    employees: `${BASE_URL}/employees`,
   };
   
 
