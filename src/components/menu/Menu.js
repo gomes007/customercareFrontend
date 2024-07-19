@@ -21,22 +21,10 @@ const Menu = ({ children }) => {
           <img src="/img/logo.png" />
         </h1>
         <ul className="menu-content">
-          <li>
-            <a className="link-menu" href="/admin/permission">
-              <i className="bi bi-shield-lock-fill"></i>
-              <span>Permission</span>
-            </a>
-          </li>
-          <li>
-            <a className="link-menu" href="/admin/role">
-              <i className="bi bi-person-badge"></i>
-              <span>Role</span>
-            </a>
-          </li>
-          <li>
-            <a className="link-menu" href="/admin/roleList">
-            <i className="bi bi-list-ul"></i>
-              <span>Role list</span>
+        <li>
+            <a className="link-menu" href="/admin/employeeRegister">
+            <i className="bi bi-person me-2"></i>
+              <span>Employee </span>
             </a>
           </li>
           <li>
@@ -46,17 +34,31 @@ const Menu = ({ children }) => {
             </a>
           </li>
           <li>
+            <a className="link-menu" href="/admin/role">
+              <i className="bi bi-person-badge"></i>
+              <span>Role</span>
+            </a>
+          </li>
+          <li>
+            <a className="link-menu" href="/admin/permission">
+              <i className="bi bi-shield-lock-fill"></i>
+              <span>Permission</span>
+            </a>
+          </li>                    
+          <li>
+            <a className="link-menu" href="/admin/roleList">
+            <i className="bi bi-list-ul"></i>
+              <span>Role list</span>
+            </a>
+          </li>
+          
+          <li>
             <a className="link-menu" href="/admin/positionSalaryTable">
             <i className="bi bi-list-ul"></i>
               <span>Position and Salary List</span>
             </a>
           </li>
-          <li>
-            <a className="link-menu" href="/admin/employeeRegister">
-            <i className="bi bi-currency-dollar me-2"></i>
-              <span>Employee </span>
-            </a>
-          </li>
+          
         </ul>
       </div>
       <div className={`site ${open}`}>

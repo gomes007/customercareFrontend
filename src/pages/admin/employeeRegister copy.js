@@ -5,7 +5,6 @@ import NavTitle from "@/components/menu/NavTitle";
 import employeeService from "@/service/employeeService";
 import positionSalaryService from "@/service/positionSalaryService";
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
 import { toast } from "react-toastify";
 
 const EmployeeRegister = () => {
@@ -21,25 +20,40 @@ const EmployeeRegister = () => {
     hasDependents: false,
     positionSalaryId: "",
     otherInformation: "",
-    addresses: [],
-    dependents: []
-  });
-  const [currentAddress, setCurrentAddress] = useState({
-    street: "",
-    number: "",
-    neighborhood: "",
-    zipCode: "",
-    complement: "",
-    city: "",
-    state: ""
-  });
-  const [currentDependent, setCurrentDependent] = useState({
-    name: "",
-    birthDate: "",
-    gender: "",
-    cpf: "",
-    relationship: "",
-    addresses: []
+    addresses: [
+      {
+        street: "",
+        number: "",
+        neighborhood: "",
+        zipCode: "",
+        complement: "",
+        city: "",
+        state: "",
+      },
+    ],
+    dependents: [
+      {
+        name: "",
+        privateEmail: "",
+        cpf: "",
+        phone: "",
+        birthDate: "",
+        gender: "",
+        relationship: "",
+        addresses: [
+          {
+            street: "",
+            number: "",
+            neighborhood: "",
+            zipCode: "",
+            complement: "",
+            city: "",
+            state: "",
+          },
+        ],
+        file: null,
+      },
+    ],
   });
   const [profileImageURL, setProfileImageURL] = useState(null);
   const [positions, setPositions] = useState([]);
@@ -71,49 +85,17 @@ const EmployeeRegister = () => {
     setEmployee((prevData) => ({ ...prevData, addresses: updatedAddresses }));
   };
 
-  const handleAddOrEditAddress = () => {
-    setEmployee((prevData) => ({
-      ...prevData,
-      addresses: [...prevData.addresses, { ...currentAddress }]
-    }));
-    setCurrentAddress({
-      street: "",
-      number: "",
-      neighborhood: "",
-      zipCode: "",
-      complement: "",
-      city: "",
-      state: ""
-    });
-  };
-
-  const handleRemoveAddress = (index) => {
-    const updatedAddresses = employee.addresses.filter((_, i) => i !== index);
-    setEmployee((prevData) => ({ ...prevData, addresses: updatedAddresses }));
-  };
-
-  const handleDependentChange = (e) => {
+  const handleDependentChange = (index, e) => {
     const { name, value } = e.target;
-    setCurrentDependent((prevData) => ({ ...prevData, [name]: value }));
+    const updatedDependents = [...employee.dependents];
+    updatedDependents[index][name] = value;
+    setEmployee((prevData) => ({ ...prevData, dependents: updatedDependents }));
   };
 
-  const handleAddOrEditDependent = (newDependent) => {
-    setEmployee((prevData) => ({
-      ...prevData,
-      dependents: [...prevData.dependents, newDependent]
-    }));
-    setCurrentDependent({
-      name: "",
-      birthDate: "",
-      gender: "",
-      cpf: "",
-      relationship: "",
-      addresses: []
-    });
-  };
-
-  const handleRemoveDependent = (index) => {
-    const updatedDependents = employee.dependents.filter((_, i) => i !== index);
+  const handleDependentAddressChange = (dIndex, aIndex, e) => {
+    const { name, value } = e.target;
+    const updatedDependents = [...employee.dependents];
+    updatedDependents[dIndex].addresses[aIndex][name] = value;
     setEmployee((prevData) => ({ ...prevData, dependents: updatedDependents }));
   };
 
@@ -122,6 +104,13 @@ const EmployeeRegister = () => {
       const file = e.target.files[0];
       setProfileImageURL(URL.createObjectURL(file));
     }
+  };
+
+  const handleDependentFileChange = (index, e) => {
+    const file = e.target.files[0];
+    const updatedDependents = [...employee.dependents];
+    updatedDependents[index].file = file;
+    setEmployee((prevData) => ({ ...prevData, dependents: updatedDependents }));
   };
 
   const handleSubmit = async (e) => {
@@ -340,33 +329,31 @@ const EmployeeRegister = () => {
               </div>
             </div>
             <legend>Address Information</legend>
-            {employee.addresses.map((address, index) => (
-              <AddressForm
-                key={index}
-                index={index}
-                address={address}
-                handleChange={handleAddressChange}
-                handleRemoveAddress={handleRemoveAddress}
-              />
-            ))}
-            <Button onClick={handleAddOrEditAddress} className="mb-3">Add Address</Button>
+            <AddressForm
+              index={0}
+              address={employee.addresses[0]}
+              handleChange={handleAddressChange}
+            />
             {employee.hasDependents && (
               <>
                 <legend>Dependent Information</legend>
-                <DependentForm
-                  dependent={currentDependent}
-                  handleDependentChange={handleDependentChange}
-                  handleAddOrEditDependent={handleAddOrEditDependent}
-                  dependents={employee.dependents}
-                  handleRemoveDependent={handleRemoveDependent}
-                />
+                {employee.dependents.map((dependent, dIndex) => (
+                  <DependentForm
+                    key={dIndex}
+                    index={dIndex}
+                    dependent={dependent}
+                    handleChange={handleDependentChange}
+                    handleAddressChange={handleDependentAddressChange}
+                    handleFileChange={handleDependentFileChange}
+                  />
+                ))}
               </>
             )}
             <div className="row mt-3">
               <div className="col-12 d-flex justify-content-end">
-                <Button className="btn btn-primary" onClick={handleSubmit}>
+                <button className="btn btn-primary" onClick={handleSubmit}>
                   Submit
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -377,4 +364,3 @@ const EmployeeRegister = () => {
 }
 
 export default EmployeeRegister;
-
