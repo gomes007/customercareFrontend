@@ -1,9 +1,16 @@
 import FieldForm from "@/components/form/FieldForm";
-import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import AddressForm from './AddressForm';
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import AddressForm from "./AddressForm";
 
-const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDependent, dependents, handleEditDependent, handleRemoveDependent }) => {
+const DependentForm = ({
+  dependent,
+  handleDependentChange,
+  handleAddOrEditDependent,
+  dependents,
+  handleEditDependent,
+  handleRemoveDependent,
+}) => {
   const [address, setAddress] = useState({
     street: "",
     number: "",
@@ -11,7 +18,7 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
     zipCode: "",
     complement: "",
     city: "",
-    state: ""
+    state: "",
   });
   const [addresses, setAddresses] = useState([]);
 
@@ -37,7 +44,7 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
       zipCode: "",
       complement: "",
       city: "",
-      state: ""
+      state: "",
     });
   };
 
@@ -53,7 +60,7 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
 
   return (
     <>
-      <div className="row">
+      <div className="row limit">
         <div className="col-md-4">
           <FieldForm
             label="Name"
@@ -80,8 +87,8 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
             value={dependent.gender}
             onChange={handleDependentChange}
             options={[
-              { value: 'MALE', label: 'Male' },
-              { value: 'FEMALE', label: 'Female' }
+              { value: "MALE", label: "Male" },
+              { value: "FEMALE", label: "Female" },
             ]}
           />
         </div>
@@ -102,16 +109,16 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
             value={dependent.relationship}
             onChange={handleDependentChange}
             options={[
-              { value: 'SPOUSE', label: 'Spouse' },
-              { value: 'SON', label: 'Son' },
-              { value: 'DAUGHTER', label: 'Daughter' },
-              { value: 'FATHER', label: 'Father' },
-              { value: 'MOTHER', label: 'Mother' }
+              { value: "SPOUSE", label: "Spouse" },
+              { value: "SON", label: "Son" },
+              { value: "DAUGHTER", label: "Daughter" },
+              { value: "FATHER", label: "Father" },
+              { value: "MOTHER", label: "Mother" },
             ]}
           />
         </div>
       </div>
-      <legend>Dependent Address</legend>
+
       {addresses.map((address, index) => (
         <div key={index} className="address-fieldset">
           <div className="legend-address">Address {index + 1}</div>
@@ -123,10 +130,20 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
           />
         </div>
       ))}
-      <Button onClick={handleAddAddress} className="mb-3">Add Address</Button>
-      <Button onClick={handleAddDependent}>{dependent.id ? 'Update Dependent' : 'Add Dependent'}</Button>
+      <Button
+        onClick={handleAddAddress}
+        className="mb-3 me-2"
+        size="sm"
+        title="Add Address"
+      >
+        <i className="bi bi-house-add"></i>
+      </Button>
+      <Button onClick={handleAddDependent} className="mb-3 me-2" size="sm">
+        {dependent && dependent.id ? "Update" : "Add"}
+      </Button>
+
       <div>
-        <h2>Current Dependents</h2>
+        <legend>Current Dependents</legend>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -150,13 +167,27 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
                 <td>
                   {dep.addresses.map((addr, addrIndex) => (
                     <div key={addrIndex}>
-                      {addr.street}, {addr.number}, {addr.neighborhood}, {addr.zipCode}, {addr.complement}, {addr.city}, {addr.state}
+                      {addr.street}, {addr.number}, {addr.neighborhood},{" "}
+                      {addr.zipCode}, {addr.complement}, {addr.city},{" "}
+                      {addr.state}
                     </div>
                   ))}
                 </td>
                 <td>
-                  <Button onClick={() => handleEditDependent(index)}>Edit</Button>
-                  <Button onClick={() => handleRemoveDependent(index)} className="ml-2">Delete</Button>
+                  <Button
+                    onClick={() => handleEditDependent(index)}
+                    className="btn btn-warning btn-sm me-2"
+                    title="Edit"
+                  >
+                    <i className="bi bi-pencil"></i>
+                  </Button>
+                  <Button
+                    onClick={() => handleRemoveDependent(index)}
+                    className="btn btn-danger btn-sm"
+                    title="Delete"
+                  >
+                    <i className="bi bi-trash"></i>
+                  </Button>
                 </td>
               </tr>
             ))}

@@ -1,13 +1,13 @@
 import AddressForm from "@/components/employee/AddressForm";
 import DependentForm from "@/components/employee/DependentForm";
 import FieldForm from "@/components/form/FieldForm";
-import TabForm from '@/components/form/TabForm'; // Import TabForm component
+import TabForm from "@/components/form/TabForm"; // Import TabForm component
 import NavTitle from "@/components/menu/NavTitle";
 import employeeService from "@/service/employeeService";
 import positionSalaryService from "@/service/positionSalaryService";
-import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const EmployeeRegister = () => {
   const [employee, setEmployee] = useState({
@@ -23,7 +23,7 @@ const EmployeeRegister = () => {
     positionSalaryId: "",
     otherInformation: "",
     addresses: [],
-    dependents: []
+    dependents: [],
   });
   const [currentAddress, setCurrentAddress] = useState({
     street: "",
@@ -32,7 +32,7 @@ const EmployeeRegister = () => {
     zipCode: "",
     complement: "",
     city: "",
-    state: ""
+    state: "",
   });
   const [currentDependent, setCurrentDependent] = useState({
     name: "",
@@ -40,7 +40,7 @@ const EmployeeRegister = () => {
     gender: "",
     cpf: "",
     relationship: "",
-    addresses: []
+    addresses: [],
   });
   const [profileImageURL, setProfileImageURL] = useState(null);
   const [positions, setPositions] = useState([]);
@@ -77,7 +77,7 @@ const EmployeeRegister = () => {
   const handleAddOrEditAddress = () => {
     setEmployee((prevData) => ({
       ...prevData,
-      addresses: [...prevData.addresses, { ...currentAddress }]
+      addresses: [...prevData.addresses, { ...currentAddress }],
     }));
     setCurrentAddress({
       street: "",
@@ -86,7 +86,7 @@ const EmployeeRegister = () => {
       zipCode: "",
       complement: "",
       city: "",
-      state: ""
+      state: "",
     });
   };
 
@@ -132,6 +132,9 @@ const EmployeeRegister = () => {
     setIsEditingDependent(true);
     setEditIndex(index);
   };
+  
+  
+  
 
   const handleRemoveDependent = (index) => {
     const updatedDependents = employee.dependents.filter((_, i) => i !== index);
@@ -161,6 +164,44 @@ const EmployeeRegister = () => {
       const files = { photo };
       await employeeService.createEmployee(employeeData, files);
       toast.success("Employee created successfully");
+  
+      //reset form
+      setEmployee({
+        name: "",
+        gender: "",
+        cpf: "",
+        phone: "",
+        birthDate: "",
+        hireDate: "",
+        privateEmail: "",
+        companyEmail: "",
+        hasDependents: false,
+        positionSalaryId: "",
+        otherInformation: "",
+        addresses: [],
+        dependents: []
+      });
+      setCurrentAddress({
+        street: "",
+        number: "",
+        neighborhood: "",
+        zipCode: "",
+        complement: "",
+        city: "",
+        state: ""
+      });
+      setCurrentDependent({
+        name: "",
+        birthDate: "",
+        gender: "",
+        cpf: "",
+        relationship: "",
+        addresses: []
+      });
+      setProfileImageURL(null);
+      setIsEditingDependent(false);
+      setEditIndex(null);
+      imageUploadElement.value = "";
     } catch (error) {
       console.error("Error creating employee:", error);
       toast.error("Failed to create employee");
@@ -170,9 +211,9 @@ const EmployeeRegister = () => {
 
   const tabs = [
     {
-      label: 'Personal Information',
+      label: "Personal Information",
       content: (
-        <>          
+        <>
           <div className="row mt-3">
             <div className="col-md-10">
               <div className="row">
@@ -347,12 +388,12 @@ const EmployeeRegister = () => {
             </div>
           </div>
         </>
-      )
+      ),
     },
     {
-      label: 'Employee Address',
+      label: "Employee Address",
       content: (
-        <div className="mt-3">          
+        <div className="mt-3">
           {employee.addresses.map((address, index) => (
             <div key={index} className="address-fieldset">
               <div className="legend-address">Address {index + 1}</div>
@@ -364,17 +405,19 @@ const EmployeeRegister = () => {
               />
             </div>
           ))}
-          <Button onClick={handleAddOrEditAddress} className="mb-3">Add Address</Button>
+          <Button onClick={handleAddOrEditAddress} className="mb-3" size="sm" title="Add Address">
+            <i className="bi bi-house-add"></i>
+          </Button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   if (employee.hasDependents) {
     tabs.push({
-      label: 'Dependent Information',
+      label: "Dependent Information",
       content: (
-        <div className="mt-3">                   
+        <div className="mt-3">
           <DependentForm
             dependent={currentDependent}
             handleDependentChange={handleDependentChange}
@@ -383,8 +426,8 @@ const EmployeeRegister = () => {
             handleEditDependent={handleEditDependent}
             handleRemoveDependent={handleRemoveDependent}
           />
-        </div>        
-      )
+        </div>
+      ),
     });
   }
 
