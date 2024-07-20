@@ -1,9 +1,9 @@
 import FieldForm from "@/components/form/FieldForm";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import AddressForm from './AddressForm';
 
-const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDependent, dependents, handleRemoveDependent }) => {
+const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDependent, dependents, handleEditDependent, handleRemoveDependent }) => {
   const [address, setAddress] = useState({
     street: "",
     number: "",
@@ -14,6 +14,12 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
     state: ""
   });
   const [addresses, setAddresses] = useState([]);
+
+  useEffect(() => {
+    if (dependent.addresses) {
+      setAddresses(dependent.addresses);
+    }
+  }, [dependent]);
 
   const handleAddressChange = (index, e) => {
     const { name, value } = e.target;
@@ -97,7 +103,7 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
             onChange={handleDependentChange}
             options={[
               { value: 'SPOUSE', label: 'Spouse' },
-              { value: 'CHILD', label: 'Child' },
+              { value: 'SON', label: 'Son' },
               { value: 'DAUGHTER', label: 'Daughter' },
               { value: 'FATHER', label: 'Father' },
               { value: 'MOTHER', label: 'Mother' }
@@ -107,16 +113,18 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
       </div>
       <legend>Dependent Address</legend>
       {addresses.map((address, index) => (
-        <AddressForm
-          key={index}
-          index={index}
-          address={address}
-          handleChange={handleAddressChange}
-          handleRemoveAddress={handleRemoveAddress}
-        />
+        <div key={index} className="address-fieldset">
+          <div className="legend-address">Address {index + 1}</div>
+          <AddressForm
+            index={index}
+            address={address}
+            handleChange={handleAddressChange}
+            handleRemoveAddress={handleRemoveAddress}
+          />
+        </div>
       ))}
       <Button onClick={handleAddAddress} className="mb-3">Add Address</Button>
-      <Button onClick={handleAddDependent}>Add Dependent</Button>
+      <Button onClick={handleAddDependent}>{dependent.id ? 'Update Dependent' : 'Add Dependent'}</Button>
       <div>
         <h2>Current Dependents</h2>
         <table className="table table-striped">
@@ -147,7 +155,8 @@ const DependentForm = ({ dependent, handleDependentChange, handleAddOrEditDepend
                   ))}
                 </td>
                 <td>
-                  <Button onClick={() => handleRemoveDependent(index)}>Delete</Button>
+                  <Button onClick={() => handleEditDependent(index)}>Edit</Button>
+                  <Button onClick={() => handleRemoveDependent(index)} className="ml-2">Delete</Button>
                 </td>
               </tr>
             ))}

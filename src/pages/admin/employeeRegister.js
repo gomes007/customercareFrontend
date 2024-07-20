@@ -1,12 +1,13 @@
-import AddressForm from '@/components/employee/AddressForm';
-import DependentForm from '@/components/employee/DependentForm';
+import AddressForm from "@/components/employee/AddressForm";
+import DependentForm from "@/components/employee/DependentForm";
 import FieldForm from "@/components/form/FieldForm";
+import TabForm from '@/components/form/TabForm'; // Import TabForm component
 import NavTitle from "@/components/menu/NavTitle";
 import employeeService from "@/service/employeeService";
 import positionSalaryService from "@/service/positionSalaryService";
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 const EmployeeRegister = () => {
   const [employee, setEmployee] = useState({
@@ -44,6 +45,8 @@ const EmployeeRegister = () => {
   const [profileImageURL, setProfileImageURL] = useState(null);
   const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isEditingDependent, setIsEditingDependent] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     async function fetchPositionSalary() {
@@ -98,10 +101,21 @@ const EmployeeRegister = () => {
   };
 
   const handleAddOrEditDependent = (newDependent) => {
-    setEmployee((prevData) => ({
-      ...prevData,
-      dependents: [...prevData.dependents, newDependent]
-    }));
+    if (isEditingDependent) {
+      const updatedDependents = [...employee.dependents];
+      updatedDependents[editIndex] = newDependent;
+      setEmployee((prevData) => ({
+        ...prevData,
+        dependents: updatedDependents
+      }));
+      setIsEditingDependent(false);
+      setEditIndex(null);
+    } else {
+      setEmployee((prevData) => ({
+        ...prevData,
+        dependents: [...prevData.dependents, newDependent]
+      }));
+    }
     setCurrentDependent({
       name: "",
       birthDate: "",
@@ -110,6 +124,13 @@ const EmployeeRegister = () => {
       relationship: "",
       addresses: []
     });
+  };
+
+  const handleEditDependent = (index) => {
+    const selectedDependent = employee.dependents[index];
+    setCurrentDependent(selectedDependent);
+    setIsEditingDependent(true);
+    setEditIndex(index);
   };
 
   const handleRemoveDependent = (index) => {
@@ -126,16 +147,17 @@ const EmployeeRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const employeeData = {
       ...employee,
       positionSalary: { id: parseInt(employee.positionSalaryId) },
     };
-
+  
     delete employeeData.positionSalaryId;
-
+  
     try {
-      const photo = document.getElementById("imageUpload").files[0];
+      const imageUploadElement = document.getElementById("imageUpload");
+      const photo = imageUploadElement && imageUploadElement.files[0];
       const files = { photo };
       await employeeService.createEmployee(employeeData, files);
       toast.success("Employee created successfully");
@@ -144,6 +166,227 @@ const EmployeeRegister = () => {
       toast.error("Failed to create employee");
     }
   };
+  
+
+  const tabs = [
+    {
+      label: 'Personal Information',
+      content: (
+        <>          
+          <div className="row mt-3">
+            <div className="col-md-10">
+              <div className="row">
+                <div className="col-md-6">
+                  <FieldForm
+                    label="Name"
+                    type="text"
+                    name="name"
+                    value={employee.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <FieldForm
+                    label="Gender"
+                    type="select"
+                    id="gender"
+                    name="gender"
+                    value={employee.gender}
+                    onChange={handleChange}
+                    options={[
+                      { value: "MALE", label: "Male" },
+                      { value: "FEMALE", label: "Female" },
+                    ]}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <FieldForm
+                    label="CPF"
+                    type="text"
+                    name="cpf"
+                    value={employee.cpf}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-3 mt-3">
+                  <FieldForm
+                    label="Birth Date"
+                    type="date"
+                    name="birthDate"
+                    value={employee.birthDate}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-3 mt-3">
+                  <FieldForm
+                    label="Phone"
+                    type="number"
+                    name="phone"
+                    value={employee.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-6 mt-3">
+                  <FieldForm
+                    label="Private Email"
+                    type="text"
+                    name="privateEmail"
+                    value={employee.privateEmail}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2 d-flex flex-column align-items-center">
+              <div className="profile-image-wrapper">
+                <div className="image-container">
+                  {profileImageURL ? (
+                    <img
+                      src={profileImageURL}
+                      alt="Profile"
+                      className="profile-image"
+                    />
+                  ) : (
+                    <div className="image-placeholder">Upload Image</div>
+                  )}
+                </div>
+                <label htmlFor="imageUpload" className="custom-upload-button">
+                  Choose Image
+                </label>
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="image-upload"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-3 mt-3">
+              <FieldForm
+                label="Hire Date"
+                type="date"
+                name="hireDate"
+                value={employee.hireDate}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-5 mt-3">
+              <FieldForm
+                label="Company Email"
+                type="text"
+                name="companyEmail"
+                value={employee.companyEmail}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-4 mt-3">
+              <label htmlFor="position" className="form-label small mb-0">
+                Position
+              </label>
+              <select
+                className="form-select form-select-sm"
+                name="positionSalaryId"
+                value={employee.positionSalaryId}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a Position</option>
+                {loading ? (
+                  <option value="" disabled>
+                    Loading...
+                  </option>
+                ) : positions.length > 0 ? (
+                  positions.map((position) => (
+                    <option key={position.id} value={position.id}>
+                      {position.position}
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>
+                    No roles available
+                  </option>
+                )}
+              </select>
+            </div>
+            <div className="col-md-12 mt-3">
+              <FieldForm
+                label="Other Information"
+                type="textarea"
+                name="otherInformation"
+                rows={3}
+                value={employee.otherInformation}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-12 mt-3">
+              <div className="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                  name="hasDependents"
+                  checked={employee.hasDependents}
+                  onChange={(e) =>
+                    setEmployee((prev) => ({
+                      ...prev,
+                      hasDependents: e.target.checked,
+                    }))
+                  }
+                />
+                <label
+                  className="form-check-label small"
+                  htmlFor="flexSwitchCheckChecked"
+                >
+                  Has Dependents?
+                </label>
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    },
+    {
+      label: 'Employee Address',
+      content: (
+        <div className="mt-3">          
+          {employee.addresses.map((address, index) => (
+            <div key={index} className="address-fieldset">
+              <div className="legend-address">Address {index + 1}</div>
+              <AddressForm
+                index={index}
+                address={address}
+                handleChange={handleAddressChange}
+                handleRemoveAddress={handleRemoveAddress}
+              />
+            </div>
+          ))}
+          <Button onClick={handleAddOrEditAddress} className="mb-3">Add Address</Button>
+        </div>
+      )
+    }
+  ];
+
+  if (employee.hasDependents) {
+    tabs.push({
+      label: 'Dependent Information',
+      content: (
+        <div className="mt-3">                   
+          <DependentForm
+            dependent={currentDependent}
+            handleDependentChange={handleDependentChange}
+            handleAddOrEditDependent={handleAddOrEditDependent}
+            dependents={employee.dependents}
+            handleEditDependent={handleEditDependent}
+            handleRemoveDependent={handleRemoveDependent}
+          />
+        </div>        
+      )
+    });
+  }
 
   return (
     <>
@@ -156,212 +399,13 @@ const EmployeeRegister = () => {
           { name: "Employee List", link: "/admin/employeeTable" },
         ]}
       />
-
       <div className="container-fluid">
         <div className="card mt-4 p-3">
           <div className="card-header">
             <h6>Register</h6>
           </div>
           <div className="card-body">
-            <legend>Personal Information</legend>
-            <div className="row">
-              <div className="col-md-10">
-                <div className="row">
-                  <div className="col-md-6">
-                    <FieldForm
-                      label="Name"
-                      type="text"
-                      name="name"
-                      value={employee.name}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-3">
-                    <FieldForm
-                      label="Gender"
-                      type="select"
-                      id="gender"
-                      name="gender"
-                      value={employee.gender}
-                      onChange={handleChange}
-                      options={[
-                        { value: "MALE", label: "Male" },
-                        { value: "FEMALE", label: "Female" },
-                      ]}
-                    />
-                  </div>
-                  <div className="col-md-3">
-                    <FieldForm
-                      label="CPF"
-                      type="text"
-                      name="cpf"
-                      value={employee.cpf}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-3 mt-3">
-                    <FieldForm
-                      label="Birth Date"
-                      type="date"
-                      name="birthDate"
-                      value={employee.birthDate}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-3 mt-3">
-                    <FieldForm
-                      label="Phone"
-                      type="number"
-                      name="phone"
-                      value={employee.phone}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-6 mt-3">
-                    <FieldForm
-                      label="Private Email"
-                      type="text"
-                      name="privateEmail"
-                      value={employee.privateEmail}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-2 d-flex flex-column align-items-center">
-                <div className="profile-image-wrapper">
-                  <div className="image-container">
-                    {profileImageURL ? (
-                      <img
-                        src={profileImageURL}
-                        alt="Profile"
-                        className="profile-image"
-                      />
-                    ) : (
-                      <div className="image-placeholder">Upload Image</div>
-                    )}
-                  </div>
-                  <label htmlFor="imageUpload" className="custom-upload-button">
-                    Choose Image
-                  </label>
-                  <input
-                    id="imageUpload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="image-upload"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-3 mt-3">
-                <FieldForm
-                  label="Hire Date"
-                  type="date"
-                  name="hireDate"
-                  value={employee.hireDate}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="col-md-5 mt-3">
-                <FieldForm
-                  label="Company Email"
-                  type="text"
-                  name="companyEmail"
-                  value={employee.companyEmail}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mt-3">
-                <label htmlFor="position" className="form-label small mb-0">
-                  Position
-                </label>
-                <select
-                  className="form-select form-select-sm"
-                  name="positionSalaryId"
-                  value={employee.positionSalaryId}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select a Position</option>
-                  {loading ? (
-                    <option value="" disabled>
-                      Loading...
-                    </option>
-                  ) : positions.length > 0 ? (
-                    positions.map((position) => (
-                      <option key={position.id} value={position.id}>
-                        {position.position}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" disabled>
-                      No roles available
-                    </option>
-                  )}
-                </select>
-              </div>
-              <div className="col-md-12 mt-3">
-                <FieldForm
-                  label="Other Information"
-                  type="textarea"
-                  name="otherInformation"
-                  rows={3}
-                  value={employee.otherInformation}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-12 mt-3">
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckChecked"
-                    name="hasDependents"
-                    checked={employee.hasDependents}
-                    onChange={(e) =>
-                      setEmployee((prev) => ({
-                        ...prev,
-                        hasDependents: e.target.checked,
-                      }))
-                    }
-                  />
-                  <label
-                    className="form-check-label small"
-                    htmlFor="flexSwitchCheckChecked"
-                  >
-                    Has Dependents?
-                  </label>
-                </div>
-              </div>
-            </div>
-            <legend>Address Information</legend>
-            {employee.addresses.map((address, index) => (
-              <AddressForm
-                key={index}
-                index={index}
-                address={address}
-                handleChange={handleAddressChange}
-                handleRemoveAddress={handleRemoveAddress}
-              />
-            ))}
-            <Button onClick={handleAddOrEditAddress} className="mb-3">Add Address</Button>
-            {employee.hasDependents && (
-              <>
-                <legend>Dependent Information</legend>
-                <DependentForm
-                  dependent={currentDependent}
-                  handleDependentChange={handleDependentChange}
-                  handleAddOrEditDependent={handleAddOrEditDependent}
-                  dependents={employee.dependents}
-                  handleRemoveDependent={handleRemoveDependent}
-                />
-              </>
-            )}
+            <TabForm tabs={tabs} />
             <div className="row mt-3">
               <div className="col-12 d-flex justify-content-end">
                 <Button className="btn btn-primary" onClick={handleSubmit}>
@@ -374,7 +418,6 @@ const EmployeeRegister = () => {
       </div>
     </>
   );
-}
+};
 
 export default EmployeeRegister;
-

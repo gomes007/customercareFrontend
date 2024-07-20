@@ -1,11 +1,19 @@
-import React from 'react';
 import FieldForm from "@/components/form/FieldForm";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 
 const AddressForm = ({ index, address, handleChange, handleRemoveAddress }) => {
   return (
     <div className="row mb-3">
-      <div className="col-md-4">
+      <div className="col-md-3">
+        <FieldForm
+          label="Zip Code"
+          type="text"
+          name="zipCode"
+          value={address.zipCode}
+          onChange={(e) => handleChange(index, e)}
+        />
+      </div>
+      <div className="col-md-5">
         <FieldForm
           label="Street"
           type="text"
@@ -23,25 +31,7 @@ const AddressForm = ({ index, address, handleChange, handleRemoveAddress }) => {
           onChange={(e) => handleChange(index, e)}
         />
       </div>
-      <div className="col-md-4">
-        <FieldForm
-          label="Neighborhood"
-          type="text"
-          name="neighborhood"
-          value={address.neighborhood}
-          onChange={(e) => handleChange(index, e)}
-        />
-      </div>
-      <div className="col-md-4">
-        <FieldForm
-          label="Zip Code"
-          type="text"
-          name="zipCode"
-          value={address.zipCode}
-          onChange={(e) => handleChange(index, e)}
-        />
-      </div>
-      <div className="col-md-4">
+      <div className="col-md-2">
         <FieldForm
           label="Complement"
           type="text"
@@ -52,6 +42,16 @@ const AddressForm = ({ index, address, handleChange, handleRemoveAddress }) => {
       </div>
       <div className="col-md-4">
         <FieldForm
+          label="Neighborhood"
+          type="text"
+          name="neighborhood"
+          value={address.neighborhood}
+          onChange={(e) => handleChange(index, e)}
+        />
+      </div>
+
+      <div className="col-md-5">
+        <FieldForm
           label="City"
           type="text"
           name="city"
@@ -59,7 +59,7 @@ const AddressForm = ({ index, address, handleChange, handleRemoveAddress }) => {
           onChange={(e) => handleChange(index, e)}
         />
       </div>
-      <div className="col-md-4">
+      <div className="col-md-3">
         <FieldForm
           label="State"
           type="text"
@@ -68,8 +68,14 @@ const AddressForm = ({ index, address, handleChange, handleRemoveAddress }) => {
           onChange={(e) => handleChange(index, e)}
         />
       </div>
-      <div className="col-md-4 d-flex align-items-end">
-        <Button variant="danger" onClick={() => handleRemoveAddress(index)}>Remove</Button>
+      <div className="col-md-4 d-flex align-items-end justify-content-start">
+        <Button
+          variant="danger"
+          size="sm"
+          onClick={() => handleRemoveAddress(index)}
+        >
+          <i className="bi bi-trash"></i>
+        </Button>
       </div>
     </div>
   );
