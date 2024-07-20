@@ -138,15 +138,23 @@ const DependentForm = ({
       >
         <i className="bi bi-house-add"></i>
       </Button>
-      <Button onClick={handleAddDependent} className="mb-3 me-2" size="sm">
-        {dependent && dependent.id ? "Update" : "Add"}
+      <Button onClick={handleAddDependent} className="mb-3 me-2" size="sm" title="Add or Edit Dependent">
+        {dependent && dependent.id ? (
+          <>
+            <i className="bi bi-pencil"></i>
+          </>
+        ) : (
+          <>
+            <i className="bi bi-plus-circle"></i>
+          </>
+        )}
       </Button>
 
       <div>
-        <legend>Current Dependents</legend>
-        <table className="table table-striped">
+      <div className="mt-2">Current Dependents</div>
+        <table className="table table-striped table-sm mt-2">
           <thead>
-            <tr>
+            <tr className="small">
               <th>Name</th>
               <th>Birth Date</th>
               <th>Gender</th>
@@ -156,7 +164,7 @@ const DependentForm = ({
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="small">
             {dependents.map((dep, index) => (
               <tr key={index}>
                 <td>{dep.name}</td>
