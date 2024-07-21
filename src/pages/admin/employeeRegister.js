@@ -1,7 +1,7 @@
 import AddressForm from "@/components/employee/AddressForm";
 import DependentForm from "@/components/employee/DependentForm";
 import FieldForm from "@/components/form/FieldForm";
-import TabForm from "@/components/form/TabForm"; // Import TabForm component
+import TabForm from "@/components/form/TabForm";
 import NavTitle from "@/components/menu/NavTitle";
 import employeeService from "@/service/employeeService";
 import positionSalaryService from "@/service/positionSalaryService";
@@ -132,8 +132,6 @@ const EmployeeRegister = () => {
     setIsEditingDependent(true);
     setEditIndex(index);
   };
-  
-  
   
 
   const handleRemoveDependent = (index) => {

@@ -58,6 +58,13 @@ const Menu = ({ children }) => {
               <span>Position and Salary List</span>
             </a>
           </li>
+
+          <li>
+            <a className="link-menu" href="/admin/exemplo">
+            <i className="bi bi-list-ul"></i>
+              <span>Exemplo</span>
+            </a>
+          </li>
           
         </ul>
       </div>
