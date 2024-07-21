@@ -60,9 +60,9 @@ const Menu = ({ children }) => {
           </li>
 
           <li>
-            <a className="link-menu" href="/admin/exemplo">
+            <a className="link-menu" href="/admin/customerRegister">
             <i className="bi bi-list-ul"></i>
-              <span>Exemplo</span>
+              <span>Customer</span>
             </a>
           </li>
           
