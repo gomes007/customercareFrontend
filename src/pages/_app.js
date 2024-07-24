@@ -15,6 +15,7 @@ import '../styles/NavTitle.style.css';
 import '../styles/Pagination.style.css';
 import '../styles/PositionSalary.style.css';
 import '../styles/RoleList.style.css';
+import '../styles/Customer.style.css';
 
 
 

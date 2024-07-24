@@ -1,0 +1,26 @@
+.radio-format {
+    border: 1px solid #ccc;
+    padding: 10px 10px 0 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .radio-format .legend {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: white;
+    padding: 0 5px;
+    font-size: 0.9rem;
+  }
+  
+  .radio-format .form-check-inline {
+    margin-right: 10px;
+  }
+  
+
+  .d-flex .radio-format {
+    margin-right: 15px; 
+  }
