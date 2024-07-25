@@ -1,7 +1,9 @@
+import AddressForm from "@/components/employee/AddressForm";
 import FieldForm from "@/components/form/FieldForm";
 import RegisterCard from "@/components/form/RegisterCard";
 import NavTitle from "@/components/menu/NavTitle";
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 
 
 const CustomerRegister = () => {
@@ -50,6 +52,22 @@ const CustomerRegister = () => {
     setCustomer((prevData) => ({ ...prevData, addresses: updatedAddresses }));
   };
 
+  const handleAddOrEditAddress = () => {
+    setCustomer((prevData) => ({
+      ...prevData,
+      addresses: [...prevData.addresses, { ...currentAddress }],
+    }));
+    setCurrentAddress({
+      street: "",
+      number: "",
+      neighborhood: "",
+      zipCode: "",
+      complement: "",
+      city: "",
+      state: "",
+    });
+  };
+
 
 
   return (
@@ -76,8 +94,8 @@ const CustomerRegister = () => {
                   type="radio"
                   name="customerType"
                   id={`flexRadioDefault${type}`}
-                  value={type}
-                  checked={customer.customerType === type}
+                  value={type.toUpperCase()} 
+                  checked={customer.customerType === type.toUpperCase()} 
                   onChange={handleChange}
                 />
                 <label className="form-check-label form-label small" htmlFor={`flexRadioDefault${type}`}>
@@ -87,29 +105,12 @@ const CustomerRegister = () => {
             ))}
           </div>
 
-          <div className="radio-format">
-            <div className="legend">Situation</div>
-            {["Active", "Inactive"].map((type) => (
-              <div key={type} className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="situation"
-                  id={`flexRadioDefault${type}`}
-                  value={type}
-                  checked={customer.situation === type}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label form-label small" htmlFor={`flexRadioDefault${type}`}>
-                  {type}
-                </label>
-              </div>
-            ))}
-          </div>
+
+
         </div>
 
 
-        {customer.customerType === 'Individual' && (
+        {customer.customerType === 'INDIVIDUAL' && (
           <>
             <div className="row mt-2">
               <div className="col-md-6">
@@ -175,66 +176,105 @@ const CustomerRegister = () => {
           </>
         )}
 
-        {customer.customerType === 'Corporate' && (
+        {customer.customerType === 'CORPORATE' && (
           <>
-            <div className="col-md-6">
-              <FieldForm
-                label="Trade Name"
-                type="text"
-                name="tradeName"
-                value={customer.tradeName}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-3">
-              <FieldForm
-                label="CNPJ"
-                type="text"
-                name="cnpj"
-                value={customer.cnpj}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-3">
-              <FieldForm
-                label="Contract Number"
-                type="text"
-                name="contractNumber"
-                value={customer.contractNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-3">
-              <FieldForm
-                label="Contract Date"
-                type="date"
-                name="contractDate"
-                value={customer.contractDate}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <FieldForm
-                label="Corporate Email"
-                type="text"
-                name="corporateEmail"
-                value={customer.corporateEmail}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="col-md-12 mt-3">
-              <FieldForm
-                label="Other Information"
-                type="textarea"
-                name="otherInformation"
-                rows={3}
-                value={customer.otherInformation}
-                onChange={handleChange}
-              />
+            <div className="row mt-2">
+              <div className="col-md-5">
+                <FieldForm
+                  label="Trade Name"
+                  type="text"
+                  name="tradeName"
+                  value={customer.tradeName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-3">
+                <FieldForm
+                  label="CNPJ"
+                  type="text"
+                  name="cnpj"
+                  value={customer.cnpj}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-4">
+                <FieldForm
+                  label="Corporate Email"
+                  type="text"
+                  name="corporateEmail"
+                  value={customer.corporateEmail}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           </>
         )}
+
+
+        <div className="row mt-2">
+          <div className="col-md-6">
+            <FieldForm
+              label="Contract Number"
+              type="text"
+              name="contractNumber"
+              value={customer.contractNumber}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-md-3">
+            <FieldForm
+              label="Contract Date"
+              type="date"
+              name="contractDate"
+              value={customer.contractDate}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-md-3">
+            <FieldForm
+              label="Situation"
+              type="select"
+              id="situation"
+              name="situation"
+              value={customer.situation}
+              onChange={handleChange}
+              options={[
+                { value: "ACTIVE", label: "Active" },
+                { value: "INACTIVE", label: "Inactive" },
+              ]}
+            />
+          </div>
+          <div className="col-md-12 mt-3">
+            <FieldForm
+              label="Other Information"
+              type="textarea"
+              name="otherInformation"
+              rows={3}
+              value={customer.otherInformation}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+
+        <legend>Address Information</legend>
+        <div className="mt-3">
+          {customer.addresses.map((address, index) => (
+            <div key={index} className="address-fieldset">
+              <div className="legend-address">Address {index + 1}</div>
+              <AddressForm
+                index={index}
+                address={address}
+                handleChange={handleAddressChange}
+                handleRemoveAddress={handleRemoveAddress}
+              />
+            </div>
+          ))}
+          <Button onClick={handleAddOrEditAddress} className="mb-3" size="sm" title="Add Address">
+            <i className="bi bi-house-add"></i>
+          </Button>
+        </div>
+
       </RegisterCard>
     </>
   );
