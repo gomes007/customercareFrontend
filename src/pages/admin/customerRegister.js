@@ -2,8 +2,10 @@ import AddressForm from "@/components/employee/AddressForm";
 import FieldForm from "@/components/form/FieldForm";
 import RegisterCard from "@/components/form/RegisterCard";
 import NavTitle from "@/components/menu/NavTitle";
+import customerService from "@/service/customerService";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 
 const CustomerRegister = () => {
@@ -22,7 +24,7 @@ const CustomerRegister = () => {
     phone: "",
     birthDate: "",
     addresses: [],
-    gender: "",
+    gender: null,
     otherInformation: ""
   });
 
@@ -68,6 +70,19 @@ const CustomerRegister = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await customerService.createCustomer(customer);
+      toast.success("Customer created successfully");
+      console.log(customer);
+    } catch (error) {
+      console.log(customer);
+      console.error("Error creating customer:", error);
+      toast.error("Failed to create customer");
+    }
+  }
+
 
 
   return (
@@ -82,7 +97,7 @@ const CustomerRegister = () => {
           { name: "Customer List", link: "" },
         ]}
       />
-      <RegisterCard>
+      <RegisterCard handleSubmit={handleSubmit}>
         <legend>Customer Information</legend>
         <div className="d-flex">
           <div className="radio-format">
@@ -274,7 +289,6 @@ const CustomerRegister = () => {
             <i className="bi bi-house-add"></i>
           </Button>
         </div>
-
       </RegisterCard>
     </>
   );
