@@ -2,76 +2,60 @@ import { useState } from "react";
 import NavBar from "./NavBar";
 
 const Menu = ({ children }) => {
-  const [open, setOpen] = useState("opened");
+  const [isOpen, setIsOpen] = useState(true);
 
-  const handleMenu = () => {
-    setOpen(open === "opened" ? "closed" : "opened");
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
     <>
-      <NavBar handleMenu={handleMenu} menuOpen={open === "opened"} />
-      <div className={`menu ${open} ${open === "opened" ? "menu-shadow" : ""}`}>
-        {open === "opened" && (
-          <button className="menu-close-btn" onClick={handleMenu}>
-            <i className="bi bi-chevron-double-left"></i>
-          </button>
-        )}
-        <h1 className="logo-img">
-          <img src="/img/logo.png" />
-        </h1>
+      <NavBar handleMenu={toggleMenu} menuOpen={isOpen} />
+      <div className={`menu ${isOpen ? "opened" : "closed"}`}>
         <ul className="menu-content">
-        <li>
-            <a className="link-menu" href="/admin/employeeRegister">
-            <i className="bi bi-person me-2"></i>
-              <span>Employee </span>
-            </a>
-          </li>
-          <li>
-            <a className="link-menu" href="/admin/positionSalary">
-            <i className="bi bi-currency-dollar me-2"></i>
-              <span>Position and Salary</span>
-            </a>
-          </li>
-          <li>
-            <a className="link-menu" href="/admin/role">
-              <i className="bi bi-person-badge"></i>
-              <span>Role</span>
-            </a>
-          </li>
-          <li>
-            <a className="link-menu" href="/admin/permission">
-              <i className="bi bi-shield-lock-fill"></i>
-              <span>Permission</span>
-            </a>
-          </li>                    
-          <li>
-            <a className="link-menu" href="/admin/roleList">
-            <i className="bi bi-list-ul"></i>
-              <span>Role list</span>
-            </a>
-          </li>
-          
-          <li>
-            <a className="link-menu" href="/admin/positionSalaryTable">
-            <i className="bi bi-list-ul"></i>
-              <span>Position and Salary List</span>
-            </a>
-          </li>
-
-          <li>
-            <a className="link-menu" href="/admin/customerRegister">
-            <i className="bi bi-list-ul"></i>
-              <span>Customer</span>
-            </a>
-          </li>
-          
+          <MenuItem link="/admin/employeeRegister" icon="bi-person" text="Employee" />
+          <MenuItem link="/admin/positionSalary" icon="bi-currency-dollar" text="Position and Salary" />
+          <MenuItem link="/admin/role" icon="bi-person-badge" text="Role" />
+          <MenuItem link="/admin/permission" icon="bi-shield-lock-fill" text="Permission" />
+          <SubMenu title="List" icon="bi-list-ul">
+            <MenuItem link="/admin/roleList" icon="bi-list-ul" text="Role list" />
+            <MenuItem link="/admin/positionSalaryTable" icon="bi-list-ul" text="Position and Salary List" />
+          </SubMenu>
+          <MenuItem link="/admin/customerRegister" icon="bi-people" text="Customer" />
         </ul>
       </div>
-      <div className={`site ${open}`}>
+      <div className={`site ${isOpen ? "opened" : "closed"}`}>
         <div className="content">{children}</div>
       </div>
     </>
+  );
+};
+
+const MenuItem = ({ link, icon, text }) => (
+  <li>
+    <a className="link-menu" href={link}>
+      <i className={`bi ${icon} me-2`}></i>
+      <span>{text}</span>
+    </a>
+  </li>
+);
+
+const SubMenu = ({ title, icon, children }) => {
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+
+  const toggleSubMenu = () => {
+    setIsSubMenuOpen(!isSubMenuOpen);
+  };
+
+  return (
+    <li className="submenu">
+      <div className="submenu-title" onClick={toggleSubMenu}>
+        <i className={`bi ${icon} me-2`}></i>
+        <span>{title}</span>
+        <i className={`bi ${isSubMenuOpen ? "bi-chevron-up" : "bi-chevron-down"} ms-auto`}></i>
+      </div>
+      {isSubMenuOpen && <ul className="submenu-content">{children}</ul>}
+    </li>
   );
 };
 

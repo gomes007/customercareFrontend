@@ -75,7 +75,32 @@ const CustomerRegister = () => {
     try {
       await customerService.createCustomer(customer);
       toast.success("Customer created successfully");
-      console.log(customer);
+      setCustomer({
+        contractNumber: "",
+        contractDate: "",
+        corporateEmail: "",
+        cnpj: "",
+        tradeName: "",
+        situation: "",
+        customerType: "",
+        name: "",
+        privateEmail: "",
+        cpf: "",
+        phone: "",
+        birthDate: "",
+        addresses: [],
+        gender: null,
+        otherInformation: ""
+      });
+      setCurrentAddress({
+        street: "",
+        number: "",
+        neighborhood: "",
+        zipCode: "",
+        complement: "",
+        city: "",
+        state: "",
+      });
     } catch (error) {
       console.log(customer);
       console.error("Error creating customer:", error);
@@ -109,8 +134,8 @@ const CustomerRegister = () => {
                   type="radio"
                   name="customerType"
                   id={`flexRadioDefault${type}`}
-                  value={type.toUpperCase()} 
-                  checked={customer.customerType === type.toUpperCase()} 
+                  value={type.toUpperCase()}
+                  checked={customer.customerType === type.toUpperCase()}
                   onChange={handleChange}
                 />
                 <label className="form-check-label form-label small" htmlFor={`flexRadioDefault${type}`}>

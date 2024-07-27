@@ -1,11 +1,13 @@
+/* Estilo para o menu principal */
 .menu {
   width: 220px;
   background-color: #3c4349; 
   color: white;
-  min-height: 100vh;
+  min-height: calc(100vh - 50px); /* Ajustado para começar abaixo do navbar */
   position: fixed;
   left: 0;
-  transition: all 0.50s;
+  top: 50px; /* Ajustado para ficar abaixo do navbar */
+  transition: all 0.5s;
   z-index: 1;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
@@ -15,67 +17,37 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 70px;
-  top: 0px;
-
-}
-
-
-.menu .menu-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  font-size: 25px;
-  color: #333;
-  cursor: pointer;
-}
-
-.menu .menu-close-btn i{
-  color: rgb(148, 145, 145);
-}
-
-.menu .menu-close-btn:hover {
-  background-color: lightgray; 
-  color: #ffffff;
-}
-
-.site {
-  margin-left: 220px;
-  width: calc(100% - 220px);
-  transition: all 0.5s;
-  padding-top: 50px;
-}
-
-.site .content {
-  padding: 10px 12px;
-  max-height: calc(100vh - 50px);
-  overflow-y: auto;
-}
-
-.site.closed {
-  margin-left: 0px;
-  width: 100%;
 }
 
 .menu.closed {
   left: -220px;
 }
 
+.site {
+  margin-left: 220px;
+  transition: margin-left 0.5s;
+  padding-top: 50px;
+  width: calc(100% - 220px);
+}
+
+.site.closed {
+  margin-left: 0;
+  width: 100%;
+}
+
 .menu .menu-content {
   list-style-type: none;
   padding: 5px;
-  margin: 0px;
+  margin: 0;
   font-family: "Source Sans Pro", sans-serif;
 }
 
 .logo-img {
   width: 100%;
   display: block;
-  margin-top: 0px;
+  margin-top: 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   margin-bottom: 10px;
-
 }
 
 .logo-img img {
@@ -90,7 +62,7 @@
   display: flex;
   align-items: center;
   padding: 10px 15px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   transition: all 0.2s ease;
   cursor: pointer;
   font-family: "Source Sans Pro", sans-serif;
@@ -111,6 +83,85 @@
   margin-left: 0;
 }
 
+/* Estilos adicionais para SubMenu */
+.submenu {
+  list-style: none;
+  padding-left: 0;
+}
+
+.submenu-title {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  background: #4a5159;
+  transition: background 0.3s;
+  color: white;
+  font-size: 14px;
+  font-family: "Source Sans Pro", sans-serif;
+  border-radius: 4px;
+}
+
+.submenu-title:hover {
+  background: #555c64;
+}
+
+.submenu-content {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  background: #3c4349;
+  transition: max-height 0.3s;
+  overflow: hidden;
+}
+
+.submenu-content li {
+  padding-left: 20px;
+}
+
+.submenu-content .link-menu {
+  padding-left: 35px;
+  color: #b5b5b5;
+}
+
+.submenu-content .link-menu:hover {
+  background-color: #4a5159;
+  color: white;
+}
+
+.bi-chevron-up, .bi-chevron-down {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+/* Estilo para a barra de navegação */
+.navbar {
+  position: fixed;
+  top: 0;
+  height: 50px;
+  z-index: 2;
+  padding: 5px 20px;
+  background-color: #343a40; 
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.btn-menu {
+  background-color: transparent;
+  border: none;
+  color: #f0f1f2;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.btn-menu:hover {
+  background-color: #34495e; 
+  color: #ffffff;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
   .menu {
     width: 220px;
@@ -127,8 +178,8 @@
     padding-top: 50px;
   }
 
-  .site.menu-opened {
-    margin-left: 0;
+  .navbar {
+    width: 100%;
   }
 
   .menu-overlay {
