@@ -17,6 +17,7 @@
     "react-bootstrap": "^2.10.2",
     "react-bootstrap-sidebar": "^0.0.1",
     "react-dom": "^18",
+    "react-router-dom": "^6.25.1",
     "react-toastify": "^10.0.5"
   }
 }

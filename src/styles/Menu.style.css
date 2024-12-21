@@ -3,10 +3,10 @@
   width: 220px;
   background-color: #3c4349; 
   color: white;
-  min-height: calc(100vh - 50px); /* Ajustado para começar abaixo do navbar */
+  min-height: calc(100vh - 50px);
   position: fixed;
   left: 0;
-  top: 50px; /* Ajustado para ficar abaixo do navbar */
+  top: 50px; 
   transition: all 0.5s;
   z-index: 1;
   font-family: "Source Sans Pro", sans-serif;
@@ -69,10 +69,12 @@
   border-radius: 4px;
 }
 
+.menu .menu-content .link-menu.active, 
 .menu .menu-content .link-menu:hover {
   background-color: #e0e0e0;
   color: #2c3e50;
 }
+
 
 .menu .menu-content .link-menu i {
   font-size: 18px;
@@ -83,7 +85,7 @@
   margin-left: 0;
 }
 
-/* Estilos adicionais para SubMenu */
+
 .submenu {
   list-style: none;
   padding-left: 0;
@@ -134,7 +136,7 @@
   transition: transform 0.3s;
 }
 
-/* Estilo para a barra de navegação */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -161,7 +163,7 @@
   color: #ffffff;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .menu {
     width: 220px;

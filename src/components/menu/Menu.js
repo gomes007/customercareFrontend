@@ -1,11 +1,19 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 import NavBar from "./NavBar";
 
 const Menu = ({ children }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    router.push("/login");
   };
 
   return (
@@ -21,7 +29,14 @@ const Menu = ({ children }) => {
             <MenuItem link="/admin/roleList" icon="bi-list-ul" text="Role list" />
             <MenuItem link="/admin/positionSalaryTable" icon="bi-list-ul" text="Position and Salary List" />
           </SubMenu>
+
           <MenuItem link="/admin/customerRegister" icon="bi-people" text="Customer" />
+          <li>
+            <button className="link-menu logout-button" onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right me-2"></i>
+              <span>Logout</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div className={`site ${isOpen ? "opened" : "closed"}`}>
