@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import authService from "../service/authService";
 
 const Login = () => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+
     const router = useRouter();
 
     const handleLogin = async (e) => {
@@ -16,15 +18,15 @@ const Login = () => {
             localStorage.setItem("user", JSON.stringify(response));
             router.push("/");
         } catch (err) {
-            setError("Credenciais inválidas. Tente novamente.");
+            setError("Credentials are invalid!");
         }
     };
 
     return (
         <div className="login-page">
             <div className="login-box">
-                <h2>Bem-vindo(a)!</h2>
-                <p>Por favor, insira suas credenciais para continuar.</p>
+                <h2>Welcome!</h2>
+                <p>Please enter your credentials</p>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
@@ -33,17 +35,17 @@ const Login = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Digite seu email"
+                            placeholder="Type your email"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label>Senha</label>
+                        <label>Password</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Digite sua senha"
+                            placeholder="Type your password"
                             required
                         />
                     </div>

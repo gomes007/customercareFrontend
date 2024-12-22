@@ -31,12 +31,12 @@ const Menu = ({ children }) => {
           </SubMenu>
 
           <MenuItem link="/admin/customerRegister" icon="bi-people" text="Customer" />
-          <li>
+          <div className="logout-container">
             <button className="link-menu logout-button" onClick={handleLogout}>
               <i className="bi bi-box-arrow-right me-2"></i>
               <span>Logout</span>
             </button>
-          </li>
+          </div>
         </ul>
       </div>
       <div className={`site ${isOpen ? "opened" : "closed"}`}>

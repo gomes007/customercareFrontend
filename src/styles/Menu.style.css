@@ -1,4 +1,4 @@
-/* Estilo para o menu principal */
+
 .menu {
   width: 220px;
   background-color: #3c4349; 
@@ -148,6 +148,29 @@
   align-items: center;
   box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.1);
   width: 100%;
+}
+
+.logout-container {
+  margin-top: auto; /* Empurra o botão para a parte inferior */
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid #ccc; /* Linha separadora opcional */
+  background-color: #2f3e47; /* Mesma cor do menu */
+}
+
+.logout-button {
+  width: 100%; /* Ocupa toda a largura do contêiner */
+  padding: 10px;
+  color: #fff;
+  background-color: #444c56; /* Cor do botão */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  background-color: #3a8dbc; /* Cor ao passar o mouse */
 }
 
 .btn-menu {
